@@ -4,7 +4,6 @@ namespace app\controller;
 
 use app\common\controller\BlogBase;
 use app\model\Article;
-use app\model\Banner;
 use JasonGrimes\Paginator;
 use support\Request;
 use support\Response;
@@ -14,7 +13,6 @@ class Category extends BlogBase
     public function index(Request $request, $id = 0, $page = 1): Response
     {
         if (empty($id)) return $this->jump404();
-        if ($id == 3) return redirect('https://www.wolfcode.net');
         $map[]        = ['status', '=', 1];
         $map[]        = ['id', '=', $id];
         $categoryInfo = \app\model\Category::getOne($map);

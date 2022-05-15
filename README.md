@@ -1,5 +1,5 @@
 <h1 align="center">
-    <a href="">
+    <a href="https://www.wolfcode.net/info/239/" target="_blank">
          <code>wolfcode-blog</code> 基于 <code>webman</code> 开源博客程序
     </a>
 </h1>
