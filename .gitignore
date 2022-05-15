@@ -1,3 +1,5 @@
 /.idea
 /.vscode
 /tests/.phpunit.result.cache
+/public/upload
+/vendor/workerman/workerman.log
