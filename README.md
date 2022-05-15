@@ -45,5 +45,4 @@
 
 ## LICENSE
 
-- #### GNU General Public License v3.0
-    - #### 个人使用免费，商用运营请遵循协议
+- #### MIT
