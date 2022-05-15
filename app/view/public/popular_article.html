@@ -1,0 +1,25 @@
+<div id="gdlr-core-recent-post-widget-2" class="widget widget_gdlr-core-recent-post-widget akea-widget">
+    <h3 class="akea-widget-title">
+        <span class="akea-widget-head-text">热门点击</span>
+    </h3>
+    <span class="clear"></span>
+    <div class="gdlr-core-recent-post-widget-wrap gdlr-core-style-1">
+        {volist name='popular_list' id='vo'}
+        <div class="gdlr-core-recent-post-widget clearfix">
+            <a href="/info/{$vo.id}/">
+                <div class="gdlr-core-recent-post-widget-thumbnail gdlr-core-media-image">
+                    <img src="{$vo.img|default='/static/images/default-popular.webp'}" alt width="150" height="150">
+                </div>
+                <div class="gdlr-core-recent-post-widget-content">
+                    <div class="gdlr-core-recent-post-widget-title">{$vo.title}</div>
+                    <div class="gdlr-core-recent-post-widget-info">{$vo.desc}</div>
+                    <div class="gdlr-core-blog-info gdlr-core-blog-info-font gdlr-core-skin-caption gdlr-core-blog-info-date">
+                        {$vo.article_date}
+                    </div>
+                </div>
+            </a>
+        </div>
+        {/volist}
+    </div>
+</div>
+</div>

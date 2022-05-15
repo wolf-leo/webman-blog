@@ -1,0 +1,121 @@
+<div class="layuimini-main">
+    <div class="layui-form layuimini-form">
+        <div class="layui-form-item">
+            <label class="layui-form-label required">分类</label>
+            <div class="layui-input-block">
+                <select class="layui-select" name="c_id">
+                    {volist name='category' id='vo'}
+                    <option value="{$key}">{$vo}</option>
+                    {/volist}
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label required">标题</label>
+            <div class="layui-input-block">
+                <input type="text" name="title" lay-verify="required" value="{$info.title|default=''}" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">简介</label>
+            <div class="layui-input-block">
+                <textarea class="layui-textarea" placeholder="不填默认取内容前100字" name="desc">{$info.desc|default=''}</textarea>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">文章日期</label>
+            <div class="layui-input-block">
+                <input type="text" name="article_date" class="layui-input" id="article_date" placeholder="不选则默认当天" value="{$info.article_date|default=''}" readonly>
+            </div>
+        </div>
+        <!--        <div class="layui-form-item">-->
+        <!--            <label class="layui-form-label required">排序</label>-->
+        <!--            <div class="layui-input-block">-->
+        <!--                <input type="number" name="sort" lay-verify="required" placeholder="越大靠前" value="{$info.sort|default=1}" class="layui-input">-->
+        <!--            </div>-->
+        <!--        </div>-->
+        <div class="layui-form-item">
+            <label class="layui-form-label ">图片</label>
+            <div class="layui-input-block">
+                <div class="layui-upload">
+                    <button type="button" class="layui-btn" id="uploadImg">上传图片</button>
+                    <div class="layui-upload-list">
+                        <img class="layui-upload-img" src="{$info.img|default=''}">
+                        <input type="hidden" name="img" value="{$info.img|default=''}">
+                    </div>
+                    <div style="width: 95px;">
+                        <div class="layui-progress layui-progress-big" lay-showpercent="yes" lay-filter="uploadImg-progress">
+                            <div class="layui-progress-bar" lay-percent=""></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label required">内容</label>
+            <div class="layui-input-block">
+                <div id="content">{$info.content|default=''|raw}</div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label required">状态</label>
+            <div class="layui-input-block">
+                {volist name='notes.status' id='vo'}
+                <input type="radio" name="status" value="{$key}" title="{$vo}" {if !empty($info) && $info.status==$key}checked=""{elseif $key==1}checked{/if}>
+                {/volist}
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn">提交</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    let index_url = (location.hash).replace('#', '');
+    let edit_url = index_url.replace('/index', '/edit');
+    let upload_url = '/admin/ajax/upload';
+    let id = '{$id|default=0}'
+
+    layui.use(['form', 'upload', 'element', 'laydate'], function () {
+        var form = layui.form, upload = layui.upload, element = layui.element, layer = layui.layer, laydate = layui.laydate, $ = layui.$;
+        laydate.render({
+            elem: '#article_date', format: 'yyyy年MM月dd日', trigger: 'click'
+        });
+        form.render();
+        let editor = $("#content").editor({
+            upload: upload_url + '?type=editor'
+        });
+        form.on('submit(saveBtn)', function (data) {
+            let url = edit_url + '?id=' + id
+            data.field.content = editor.getHtml()
+            fetchApi(url, data.field, true, true)
+            return false;
+        });
+
+        var uploadInst = upload.render({
+            elem: '#uploadImg', url: upload_url, before: function (obj) {
+                //预读本地文件示例，不支持ie8
+                obj.preview(function (index, file, result) {
+                    $('#uploadImg').parent('div').find('.layui-upload-img').attr('src', result);
+                });
+                element.progress('uploadImg-progress', '0%'); //进度条复位
+                layer.msg('上传中', {icon: 16, time: 0});
+            }, done: function (res) {
+                if (res.code != '1') {
+                    layer.msg('上传失败', {icon: 2, time: 1200});
+                    return
+                }
+                $('#uploadImg').parent('div').find('input').attr('value', res.data.url);
+            }, error: function () {
+                layer.msg('上传失败', {icon: 2, time: 1200});
+            }, progress: function (n, elem, e) {
+                element.progress('uploadImg-progress', n + '%'); //可配合 layui 进度条元素使用
+                if (n == 100) layer.msg('上传完毕', {icon: 1});
+            }
+        });
+
+    });
+</script>

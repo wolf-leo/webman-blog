@@ -1,0 +1,45 @@
+<div class="layuimini-main">
+    <div class="layui-form layuimini-form">
+        <div class="layui-form-item">
+            <label class="layui-form-label required">标题</label>
+            <div class="layui-input-block">
+                <input type="text" name="title" lay-verify="required" value="{$info.title|default=''}" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label required">排序</label>
+            <div class="layui-input-block">
+                <input type="number" name="sort" lay-verify="required" placeholder="越大靠前" value="{$info.sort|default=1}" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label required">状态</label>
+            <div class="layui-input-block">
+                {volist name='notes.status' id='vo'}
+                <input type="radio" name="status" value="{$key}" title="{$vo}" {if !empty($info) && $info.status==$key}checked=""{elseif $key==1}checked{/if}>
+                {/volist}
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn">提交</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    let index_url = (location.hash).replace('#', '');
+    let edit_url = index_url.replace('/index', '/edit');
+    let id = '{$id|default=0}'
+
+    layui.use(['form', 'table'], function () {
+        var form = layui.form, layer = layui.layer, table = layui.table, $ = layui.$;
+        form.render();
+        form.on('submit(saveBtn)', function (data) {
+            let url = edit_url + '?id=' + id
+            fetchApi(url, data.field, true, true)
+            return false;
+        });
+    });
+</script>

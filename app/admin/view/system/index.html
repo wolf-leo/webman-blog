@@ -1,0 +1,122 @@
+<div class="layuimini-container">
+    <div class="layuimini-main" id="app">
+        <div class="layui-tab layui-tab-card">
+            <ul class="layui-tab-title">
+                <li class="layui-this">网站设置</li>
+                <li>LOGO配置</li>
+                <li>上传配置</li>
+                <li>关于我</li>
+            </ul>
+            <div class="layui-tab-content ">
+                <div class="layui-tab-item layui-show">
+                    {include file="system/site" /}
+                </div>
+                <div class="layui-tab-item">
+                    {include file="system/logo" /}
+                </div>
+                <div class="layui-tab-item">
+                    {include file="system/upload" /}
+                </div>
+                <div class="layui-tab-item">
+                    {include file="system/about" /}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let index_url = (location.hash).replace('#', '');
+    let edit_url = index_url.replace('/index', '/edit');
+    let upload_url = '/admin/ajax/upload';
+
+    layui.use(['form', 'upload', 'element', 'laydate', 'table'], function () {
+        let form = layui.form, upload = layui.upload, element = layui.element, $ = layui.$;
+
+        form.on('submit(saveBtnSite)', function (data) {
+            let url = edit_url + '?type=site'
+            fetchApi(url, data.field, true, true)
+            return false;
+        });
+        upload.render({
+            elem: '#site_uploadImg', url: upload_url, exts: 'ico', before: function (obj) {
+                //预读本地文件示例，不支持ie8
+                obj.preview(function (index, file, result) {
+                    $('#site_uploadImg').parent('div').find('.layui-upload-img').attr('src', result);
+                });
+                element.progress('site_uploadImg-progress', '0%'); //进度条复位
+                layer.msg('上传中', {icon: 16, time: 0});
+            }, done: function (res) {
+                if (res.code != '1') {
+                    layer.msg(res.msg, {icon: 2, time: 1200});
+                    return
+                }
+                $('#site_uploadImg').parent('div').find('input').attr('value', res.data.url);
+            }, error: function () {
+                layer.msg('上传失败', {icon: 2, time: 1200});
+            }, progress: function (n, elem, e) {
+                element.progress('site_uploadImg-progress', n + '%'); //可配合 layui 进度条元素使用
+                if (n == 100) layer.msg('上传完毕', {icon: 1});
+            }
+        });
+
+        form.on('submit(saveBtnLogo)', function (data) {
+            let url = edit_url + '?type=logo'
+            fetchApi(url, data.field, true, true)
+            return false;
+        });
+        upload.render({
+            elem: '#logo_uploadImg', url: upload_url, before: function (obj) {
+                //预读本地文件示例，不支持ie8
+                obj.preview(function (index, file, result) {
+                    $('#logo_uploadImg').parent('div').find('.layui-upload-img').attr('src', result);
+                });
+                element.progress('logo_uploadImg-progress', '0%'); //进度条复位
+                layer.msg('上传中', {icon: 16, time: 0});
+            }, done: function (res) {
+                if (res.code != '1') {
+                    layer.msg(res.msg, {icon: 2, time: 1200});
+                    return
+                }
+                $('#logo_uploadImg').parent('div').find('input').attr('value', res.data.url);
+            }, error: function () {
+                layer.msg('上传失败', {icon: 2, time: 1200});
+            }, progress: function (n, elem, e) {
+                element.progress('logo_uploadImg-progress', n + '%'); //可配合 layui 进度条元素使用
+                if (n == 100) layer.msg('上传完毕', {icon: 1});
+            }
+        });
+        upload.render({
+            elem: '#logo_uploadImg2', url: upload_url, before: function (obj) {
+                //预读本地文件示例，不支持ie8
+                obj.preview(function (index, file, result) {
+                    $('#logo_uploadImg2').parent('div').find('.layui-upload-img').attr('src', result);
+                });
+                element.progress('logo_uploadImg2-progress', '0%'); //进度条复位
+                layer.msg('上传中', {icon: 16, time: 0});
+            }, done: function (res) {
+                if (res.code != '1') {
+                    layer.msg(res.msg, {icon: 2, time: 1200});
+                    return
+                }
+                $('#logo_uploadImg2').parent('div').find('input').attr('value', res.data.url);
+            }, error: function () {
+                layer.msg('上传失败', {icon: 2, time: 1200});
+            }, progress: function (n, elem, e) {
+                element.progress('logo_uploadImg2-progress', n + '%'); //可配合 layui 进度条元素使用
+                if (n == 100) layer.msg('上传完毕', {icon: 1});
+            }
+        });
+
+        let editor = $("#content").editor({
+            upload: upload_url + '?type=editor', height: 500
+        });
+        form.on('submit(saveBtnAbout)', function (data) {
+            let url = edit_url + '?type=about'
+            data.field.about_me = editor.getHtml()
+            fetchApi(url, data.field, true, true)
+            return false;
+        });
+        form.render();
+    });
+</script>

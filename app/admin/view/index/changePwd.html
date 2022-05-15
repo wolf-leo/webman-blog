@@ -1,0 +1,36 @@
+<div class="layuimini-container">
+    <div class="layuimini-main" id="app">
+        <div class="layui-form layuimini-form">
+            <div class="layui-form-item">
+                <label class="layui-form-label required">新密码</label>
+                <div class="layui-input-block">
+                    <input type="text" name="password" class="layui-input" placeholder="请输入新密码" value="" lay-verify="required">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label required">确认新密码</label>
+                <div class="layui-input-block">
+                    <input type="text" name="password2" class="layui-input" placeholder="请确认新密码" value="" lay-verify="required">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn">提交</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    let edit_url = (location.hash).replace('#', '');
+
+    layui.use(['form', 'upload', 'element', 'laydate'], function () {
+        var form = layui.form, upload = layui.upload, element = layui.element, layer = layui.layer, laydate = layui.laydate, $ = layui.$;
+        form.on('submit(saveBtn)', function (data) {
+            let url = edit_url
+            fetchApi(url, data.field, true, true)
+            return false;
+        });
+    });
+</script>
