@@ -7,6 +7,27 @@ function adminPasswordAuth(string $password, string $salt): string
     return password_hash($password . $salt, PASSWORD_BCRYPT);
 }
 
+function sql_split($sql): array
+{
+    $sql       = preg_replace("/TYPE=(InnoDB|MyISAM|MEMORY)( DEFAULT CHARSET=[^; ]+)?/", "ENGINE=\\1 DEFAULT CHARSET=utf8mb4", $sql);
+    $sql       = str_replace("\r", "\n", $sql);
+    $ret       = array();
+    $num       = 0;
+    $quirkiest = explode(";\n", trim($sql));
+    unset($sql);
+    foreach ($quirkiest as $query) {
+        $ret[$num] = '';
+        $queries   = explode("\n", trim($query));
+        $queries   = array_filter($queries);
+        foreach ($queries as $query) {
+            $str1 = substr($query, 0, 1);
+            if ($str1 != '#' && $str1 != '-')
+                $ret[$num] .= $query;
+        }
+        $num++;
+    }
+    return $ret;
+}
 
 if (!function_exists('sysConfig')) {
     function sysConfig($type, $name = null, $default = '')

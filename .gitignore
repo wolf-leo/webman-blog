@@ -3,3 +3,4 @@
 /tests/.phpunit.result.cache
 /public/upload
 /vendor/workerman/workerman.log
+/extend/install.lock
