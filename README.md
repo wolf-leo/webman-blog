@@ -14,7 +14,7 @@
 ### 配置说明
 
 - 请先配置根目录下 `.env` 文件里以 `[DB_]` 开头的数据库连接信息
-    - 主要修改的是 `DB_USERNAME` 和 `DB_PASSWORD` 两个参数值
+    - 主要修改的是 `DB_USERNAME` 和 `DB_PASSWORD` 两个参数值，如果不喜欢 `my_blog_2022` 这个库名，可修改 `DB_DATABASE`
 - 如需外网访问，搭配 `Nginx` 进行反向代理即可
 
 ```
