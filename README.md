@@ -58,7 +58,7 @@ location / {
 >> ```php start.php rload```
 
 - #### 配置后访问 `http://你的域名/` 即可
-- #### 后台地址，在主访问域名后面+ `/admin` 即可，例如 `http://你的域名/admin`
+- #### 后台地址，在主访问域名后面+ `/admin` 即可，例如 `http://你的域名/admin` ,后台账号 `admin` 密码 `123456`
 - #### <font color="red">特别提醒
     - #### 尽量不要在 `Windows` 系统下运行该程序，建议使用 `Linux` 环境运行
     - #### 程序底层已做好 `php8+` 兼容，请谨慎使用全局的 `composer update`
