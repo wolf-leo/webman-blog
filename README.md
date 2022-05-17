@@ -17,6 +17,28 @@
     - #### 主要修改的是 `DB_USERNAME` 和 `DB_PASSWORD` 两个参数值
 - #### 如需外网访问，搭配 `Nginx` 进行反向代理即可
 
+```
+upstream blog {
+    server 127.0.0.1:8787;
+}
+
+server {
+    server_name 站点域名;
+    listen 80;
+    root /your/webman/public;
+
+location / {
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header Host $host;
+    if (!-f $request_filename){
+        proxy_pass http://blog;
+      }
+    }
+}
+  ```
+
+- #### 配置后访问 `http://你的域名/` 即可
+
 ### 如何运行
 
 - #### 将代码 `下载` 或者 `git clone` 到本地，放入到预设路径（例如 `/www/wwwroot/yourpath`下）
