@@ -39,7 +39,7 @@ server {
 
 ### 样式参考
 
-<img alt="样式参考" height="1943" src="/public/static/images/WOLFCODE.png" width="700"/>
+<img alt="样式参考" height="1943" src="./public/static/images/WOLFCODE.png" width="700"/>
 
 ### 如何运行
 
