@@ -37,6 +37,10 @@ location / {
 }
   ```
 
+### 样式参考
+
+<img alt="样式参考" height="1943" src="/public/static/images/WOLFCODE.png" width="700"/>
+
 ### 如何运行
 
 - #### 将代码 `下载` 或者 `git clone` 到本地，放入到预设路径（例如 `/www/wwwroot/yourpath`下）
