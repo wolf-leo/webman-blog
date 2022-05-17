@@ -14,13 +14,13 @@ class Info extends BlogBase
         if (empty($id)) return $this->jump404();
         $where[] = ['status', '=', 1];
         $where[] = ['id', '=', $id];
-        $info    = Article::getOne($where, 'id,title,img,desc,c_time,article_date,c_id,content,click');
+        $info    = Article::getOne($where, 'id,title,img,desc,c_time,article_date,category_id,content,click');
         if (empty($info)) return $this->jump404();
         Article::incClick($id); // 增加 点击 次数
         $map[] = ['status', '=', 1];
         $map[] = ['id', '<>', $id];
-        $map[] = ['c_id', '=', $info['c_id']];
-        $more  = Article::getList($map, 'id,title,img,desc,c_time,article_date,c_id', 'article_date desc,id desc', 1, 6);
+        $map[] = ['category_id', '=', $info['category_id']];
+        $more  = Article::getList($map, 'id,title,img,desc,c_time,article_date,category_id', 'article_date desc,id desc', 1, 6);
         return $this->blog_tpl(compact('info', 'more'));
     }
 

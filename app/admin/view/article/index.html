@@ -20,7 +20,7 @@
                         <div class="layui-inline">
                             <label class="layui-form-label">分类</label>
                             <div class="layui-input-inline">
-                                <select class="layui-select" name="c_id" data-search-op="=">
+                                <select class="layui-select" name="category_id" data-search-op="=">
                                     <option value="">- 全部 -</option>
                                     {volist name='category' id='vo'}
                                     <option value="{$key}">{$vo}</option>
@@ -88,9 +88,9 @@
                 {field: 'id', width: 80, title: 'ID'},
                 {field: 'title', minWidth: 200, title: '标题'},
                 {
-                    field: 'c_id', minWidth: 100, title: '分类', templet: function (res) {
+                    field: 'category_id', minWidth: 100, title: '分类', templet: function (res) {
                         let category = JSON.parse(category_json)
-                        return category[res.c_id]
+                        return category[res.category_id]
                     }
                 },
                 {

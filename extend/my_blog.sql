@@ -25,7 +25,7 @@ CREATE TABLE `article`  (
                             `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
                             `title` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
                             `desc` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
-                            `c_id` int UNSIGNED NOT NULL DEFAULT 0,
+                            `category_id` int UNSIGNED NOT NULL DEFAULT 0,
                             `img` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
                             `content` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
                             `article_date` date NULL DEFAULT NULL,
@@ -35,7 +35,7 @@ CREATE TABLE `article`  (
                             `c_time` datetime NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
                             `u_time` datetime NULL DEFAULT NULL,
                             PRIMARY KEY (`id`) USING BTREE,
-                            INDEX `c_id`(`c_id`) USING BTREE,
+                            INDEX `category_id`(`category_id`) USING BTREE,
                             INDEX `article_time`(`article_date`) USING BTREE,
                             INDEX `status`(`status`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;

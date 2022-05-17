@@ -15,7 +15,7 @@ class Index extends BlogBase
     {
         $limit   = 10;
         $where[] = ['status', '=', 1];
-        $list    = Article::getList($where, 'id,title,img,desc,c_time,article_date,c_id', 'article_date desc,id desc', $page, $limit);
+        $list    = Article::getList($where, 'id,title,img,desc,c_time,article_date,category_id', 'article_date desc,id desc', $page, $limit);
         if (empty($list)) return redirect('/');
         $banner    = Banner::getList($where, 'id,title,img,link,target,desc', 'id desc', 1, 10);
         $paginator = new Paginator(Article::getCount($where), $limit, $page, '/page/(:num)/');

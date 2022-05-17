@@ -18,7 +18,7 @@ class Article extends Model
 
     public function categoryInfo(): HasOne
     {
-        return $this->hasOne(Category::class, 'id', 'c_id')->field('id,title');
+        return $this->hasOne(Category::class, 'id', 'category_id')->field('id,title');
     }
 
     public static function incClick(int $id = 0, int $i = 1)

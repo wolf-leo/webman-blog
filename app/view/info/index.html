@@ -3,7 +3,7 @@
     <div class="gdlr-core-page-builder-body">
         <div class="gdlr-core-pbf-sidebar-wrapper ">
             <div class="gdlr-core-pbf-sidebar-container gdlr-core-line-height-0 clearfix gdlr-core-js gdlr-core-container">
-                <div class="sitemap">当前位置：<a href="/">首页</a> &gt;<a href="/category/{$info.c_id}/">{$category[$info.c_id]|default='-'}</a> &gt; {$info.title}</div>
+                <div class="sitemap">当前位置：<a href="/">首页</a> &gt;<a href="/category/{$info.category_id}/">{$category[$info.category_id]|default='-'}</a> &gt; {$info.title}</div>
                 <div class="gdlr-core-pbf-sidebar-content  gdlr-core-column-40 gdlr-core-pbf-sidebar-padding gdlr-core-line-height gdlr-core-column-extend-left">
                     <div class="gdlr-core-pbf-sidebar-content-inner" data-skin="Blog List">
                         <div class="gdlr-core-pbf-element">
@@ -19,7 +19,7 @@
                                                             <a href="javascript:;">{$info.article_date}</a>
                                                         </div>
                                                         <div class="akea-blog-info akea-blog-info-font akea-blog-info-tag ">
-                                                            <a href="/category/{$info.c_id}">{$category[$info.c_id]}</a>
+                                                            <a href="/category/{$info.category_id}">{$category[$info.category_id]}</a>
                                                         </div>
                                                         <div class="akea-blog-info akea-blog-info-font akea-blog-info-comment-number">
                                                             <span class="akea-head"><i class="fa fa-clipboard"></i></span>{$info.click}

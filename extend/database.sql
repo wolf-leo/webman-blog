@@ -6,7 +6,7 @@ CREATE TABLE `article`
     `id`           bigint(20) unsigned NOT NULL AUTO_INCREMENT,
     `title`        varchar(100) NOT NULL DEFAULT '',
     `desc`         varchar(255) NOT NULL DEFAULT '',
-    `c_id`         int(10) unsigned NOT NULL DEFAULT '0',
+    `category_id`         int(10) unsigned NOT NULL DEFAULT '0',
     `img`          varchar(255) NOT NULL DEFAULT '',
     `content`      longtext,
     `article_date` date                  DEFAULT NULL,
@@ -16,7 +16,7 @@ CREATE TABLE `article`
     `c_time`       datetime              DEFAULT NULL,
     `u_time`       datetime              DEFAULT NULL,
     PRIMARY KEY (`id`) USING BTREE,
-    KEY            `c_id` (`c_id`) USING BTREE,
+    KEY            `category_id` (`category_id`) USING BTREE,
     KEY            `article_time` (`article_date`) USING BTREE,
     KEY            `status` (`status`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
