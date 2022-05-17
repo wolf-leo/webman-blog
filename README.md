@@ -18,22 +18,22 @@
 - #### 如需外网访问，搭配 `Nginx` 进行反向代理即可
 
 ```
-upstream blog {
-    server 127.0.0.1:8787;
-}
-
 server {
+
     server_name 站点域名;
     listen 80;
-    root /your/webman/public;
+    root /your_blog_path/public;
 
 location / {
+
     proxy_set_header X-Real-IP $remote_addr;
     proxy_set_header Host $host;
+    
     if (!-f $request_filename){
-        proxy_pass http://blog;
-      }
+            proxy_pass http://127.0.0.1:8787;
+        }
     }
+    
 }
   ```
 
