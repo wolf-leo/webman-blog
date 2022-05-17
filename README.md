@@ -39,7 +39,9 @@ server {
 
 ### 样式参考
 
-<img alt="样式参考" height="1943" src="./public/static/images/WOLFCODE.png" width="700"/>
+<center>
+<img alt="样式参考" height="1172" src="https://www.wolfcode.net/static/img/wolfcode-blog-demo.png" width="422"/>
+</center>
 
 ### 如何运行
 
