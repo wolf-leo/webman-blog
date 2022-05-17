@@ -47,7 +47,7 @@ class Banner extends AdminBase
         }
         try {
             Validator::input($post, [
-                'link' => Validator::url()->length(0, 255)->setName('链接'),
+                'link' => Validator::length(0, 255)->setName('链接'),
             ]);
         } catch (ValidationException $e) {
             return $this->apiError($e->getMessage());

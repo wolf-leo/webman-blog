@@ -82,7 +82,7 @@
     layui.use(['form', 'upload', 'element', 'laydate'], function () {
         var form = layui.form, upload = layui.upload, element = layui.element, layer = layui.layer, laydate = layui.laydate, $ = layui.$;
         laydate.render({
-            elem: '#article_date', format: 'yyyy年MM月dd日', trigger: 'click'
+            elem: '#article_date', format: 'yyyy-MM-dd', trigger: 'click'
         });
         form.render();
         let editor = $("#content").editor({
