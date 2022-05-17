@@ -24,12 +24,12 @@ server {
     listen 80;
     root /your_blog_path/public;
 
-location / {
-
-    proxy_set_header X-Real-IP $remote_addr;
-    proxy_set_header Host $host;
+    location / {
     
-    if (!-f $request_filename){
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header Host $host;
+        
+        if (!-f $request_filename){
             proxy_pass http://127.0.0.1:8787;
         }
     }
