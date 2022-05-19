@@ -6,7 +6,7 @@ CREATE TABLE `article`
     `id`           bigint(20) unsigned NOT NULL AUTO_INCREMENT,
     `title`        varchar(100) NOT NULL DEFAULT '',
     `desc`         varchar(255) NOT NULL DEFAULT '',
-    `category_id`         int(10) unsigned NOT NULL DEFAULT '0',
+    `category_id`  int(10) unsigned NOT NULL DEFAULT '0',
     `img`          varchar(255) NOT NULL DEFAULT '',
     `content`      longtext,
     `article_date` date                  DEFAULT NULL,
