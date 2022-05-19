@@ -77,6 +77,16 @@ server {
     - 不做向下版本兼容，如需要其他版本，请自行兼容开发
     - 如果出现 PHP Fatal error:  Uncaught Error: Call to undefined function pcntl_signal()，请到 `php.ini` 配置文件中删除对应禁用函数即可，或者宝塔用户可在 php版本管理的 `禁用函数` 中自行删除 </font>
 
+## 第三方引用
+
+- [webman](https://www.workerman.net/doc/webman/)
+- [think](https://github.com/top-think) (orm、cache、template)
+- [oss](https://github.com/aliyun/aliyun-oss-php-sdk) (阿里云存储)
+- [cos](https://github.com/tencentyun/cos-php-sdk-v5) (腾讯云存储)
+- [layui](https://layui.js.cn/)
+- [layuimini](http://layuimini.99php.cn/docs/)
+- [sdeditor](https://www.sdcms.cn/editor/) (编辑器)
+
 ## LICENSE
 
 - MIT
