@@ -77,7 +77,7 @@ class UploadService
                 $oss_request_url = $_rs['oss - request - url'] ?? '';
                 if (empty($oss_request_url)) return ['code' => 0, 'data' => '上传至OSS失败'];
                 $oss_request_url = str_replace('http://', 'https://', $oss_request_url);
-            } catch (OssException | OssException $e) {
+            } catch (OssException $e) {
                 return ['code' => 0, 'data' => $e->getMessage()];
             }
 

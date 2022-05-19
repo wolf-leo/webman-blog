@@ -77,7 +77,7 @@ class InstallCheck implements MiddlewareInterface
                 mysqli_query($conn, $query_sql);
             }
             mysqli_close($conn);
-            @touch($base_path . 'install.lock');
+            @touch($lock_file);
             return $handler($request);
         } catch (\Exception $e) {
             $errorMsg = "连接 MySQL 失败: " . mysqli_connect_error() . $e->getMessage();
