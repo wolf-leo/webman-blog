@@ -4,6 +4,9 @@
     </a>
 </h1>
 
+[![GitHub](https://img.shields.io/github/license/wolf-leo/webman-blog?style=flat-square)](https://github.com/wolf-leo/webman-blog)
+[![GitHub](https://img.shields.io/badge/webman--blog-%40wolfcode-red?style=flat-square)](https://github.com/wolf-leo/webman-blog)
+
 ### 程序简介
 
 - 依赖`webman`搭建【 需要 php>=7.4，建议 `php8.1` | MySQL>=5.7，建议 `MySQL8.0` 】
