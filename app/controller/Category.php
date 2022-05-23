@@ -28,7 +28,7 @@ class Category extends BlogBase
         $where[] = ['status', '=', 1];
         $where[] = ['category_id', '=', $id];
         $list    = Article::getList($where, 'id,title,img,desc,c_time,article_date,category_id', 'id desc', $page, $limit);
-        if (empty($list)) return redirect("/category/{$id}/");
+        if (empty($list)) if ($page > 1) return redirect("/category/{$id}/");
         $paginator = new Paginator(Article::getCount($where), $limit, $page, "/category/{$id}/page/(:num)/");
         $paginator->setPreviousText('上页');
         $paginator->setNextText('下页');
