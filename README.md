@@ -36,7 +36,7 @@ server {
         proxy_set_header Host $host;
         
         if (!-f $request_filename){
-            proxy_pass http://127.0.0.1:8787;
+            proxy_pass http://127.0.0.1:8787;   # 端口 8787 必须跟 APP_PORT 参数值一致
         }
         
     }
