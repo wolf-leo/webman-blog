@@ -19,16 +19,25 @@ Route::get('/page/1', function() {
 Route::get('/page/1/', function() {
     return redirect('/');
 });
+Route::get('/page/{page:\d+}/', [app\controller\Index::class, 'index']);
+
+Route::get('/category/{id:\d+}', function($request, $id) {
+    return redirect("/category/{$id}/");
+});
 Route::get('/category/{id:\d+}/page/1', function($request, $id) {
     return redirect("/category/{$id}/");
 });
 Route::get('/category/{id:\d+}/page/1/', function($request, $id) {
     return redirect("/category/{$id}/");
 });
-Route::get('/page/{page:\d+}/', [app\controller\Index::class, 'index']);
 Route::get('/category/{id:\d+}/', [app\controller\Category::class, 'index']);
 Route::get('/category/{id:\d+}/page/{page:\d+}/', [app\controller\Category::class, 'index']);
+
+Route::get('/info/{id:\d+}', function($request, $id) {
+    return redirect("/info/{$id}/");
+});
 Route::get('/info/{id:\d+}/', [app\controller\Info::class, 'index']);
+Route::get('/about/me', function() {
+    return redirect("/about/me/");
+});
 Route::get('/about/me/', [app\controller\Info::class, 'about_me']);
-
-
