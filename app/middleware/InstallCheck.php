@@ -51,15 +51,21 @@ class InstallCheck implements MiddlewareInterface
             $conn = mysqli_connect($dbHost, $dbUser, $dbPwd, null, $dbPort);
             mysqli_query($conn, "SET NAMES {$dbCharset}");
             try {
-                mysqli_select_db($conn, $dbName);
+                if (!mysqli_select_db($conn, $dbName)) {
+                    if (!mysqli_query($conn, "CREATE DATABASE IF NOT EXISTS `{$dbName}` DEFAULT CHARACTER SET {$dbCharset};")) {
+                        $errorMsg = "数据库{$dbName} 不存在，也没权限创建新的数据库！";
+                        mysqli_close($conn);
+                        return response($errorMsg, 400);
+                    }
+                }
             } catch (\mysqli_sql_exception $exception) {
                 if (!mysqli_query($conn, "CREATE DATABASE IF NOT EXISTS `{$dbName}` DEFAULT CHARACTER SET {$dbCharset};")) {
                     $errorMsg = "数据库{$dbName} 不存在，也没权限创建新的数据库！";
                     mysqli_close($conn);
                     return response($errorMsg, 400);
                 }
-                mysqli_select_db($conn, $dbName);
             }
+            mysqli_select_db($conn, $dbName);
             // 先建表
             $db_data   = file_get_contents($db_base_data);
             $sqlFormat = sql_split($db_data);
