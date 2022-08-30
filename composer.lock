@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "02d0c65ff3d87ccf79b24943c0ba01d7",
+    "content-hash": "1e7532d2b14481835ed4cafcfb0c520b",
     "packages": [
         {
             "name": "aliyuncs/oss-sdk-php",
@@ -3635,6 +3635,58 @@
             "time": "2022-04-01T07:37:43+00:00"
         },
         {
+            "name": "webman/console",
+            "version": "v1.0.27",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/webman-php/console.git",
+                "reference": "e450967eaabc43eb0c93cfcd6d8f420c16e22b67"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/webman-php/console/zipball/e450967eaabc43eb0c93cfcd6d8f420c16e22b67",
+                "reference": "e450967eaabc43eb0c93cfcd6d8f420c16e22b67",
+                "shasum": ""
+            },
+            "require": {
+                "symfony/console": ">=5.0"
+            },
+            "require-dev": {
+                "workerman/webman": "^1.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Webman\\Console\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "walkor",
+                    "email": "walkor@workerman.net",
+                    "homepage": "http://www.workerman.net",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Webman console",
+            "homepage": "http://www.workerman.net",
+            "keywords": [
+                "webman console"
+            ],
+            "support": {
+                "email": "walkor@workerman.net",
+                "forum": "http://www.workerman.net/questions",
+                "issues": "https://github.com/webman-php/console/issues",
+                "source": "https://github.com/webman-php/console",
+                "wiki": "http://www.workerman.net/doc/webman"
+            },
+            "time": "2022-07-01T08:59:02+00:00"
+        },
+        {
             "name": "webman/think-cache",
             "version": "v1.0.1",
             "source": {
@@ -3771,16 +3823,16 @@
         },
         {
             "name": "workerman/webman-framework",
-            "version": "v1.3.12",
+            "version": "v1.4.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/walkor/webman-framework.git",
-                "reference": "a5b392e68a88993e2c94f73805630458b6058c01"
+                "reference": "0f4d5b6c58823656bdc9603f762d4be6e41ae380"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/walkor/webman-framework/zipball/a5b392e68a88993e2c94f73805630458b6058c01",
-                "reference": "a5b392e68a88993e2c94f73805630458b6058c01",
+                "url": "https://api.github.com/repos/walkor/webman-framework/zipball/0f4d5b6c58823656bdc9603f762d4be6e41ae380",
+                "reference": "0f4d5b6c58823656bdc9603f762d4be6e41ae380",
                 "shasum": ""
             },
             "require": {
@@ -3838,7 +3890,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2022-04-28T12:25:46+00:00"
+            "time": "2022-08-15T12:35:14+00:00"
         },
         {
             "name": "workerman/workerman",

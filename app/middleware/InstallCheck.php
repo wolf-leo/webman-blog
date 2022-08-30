@@ -50,19 +50,20 @@ class InstallCheck implements MiddlewareInterface
         try {
             $conn = mysqli_connect($dbHost, $dbUser, $dbPwd, null, $dbPort);
             mysqli_query($conn, "SET NAMES {$dbCharset}");
-            $initDb = mysqli_select_db($conn, $dbName);
-            if (!$initDb) {
+            try {
+                mysqli_select_db($conn, $dbName);
+            } catch (\mysqli_sql_exception $exception) {
                 if (!mysqli_query($conn, "CREATE DATABASE IF NOT EXISTS `{$dbName}` DEFAULT CHARACTER SET {$dbCharset};")) {
                     $errorMsg = "数据库{$dbName} 不存在，也没权限创建新的数据库！";
                     mysqli_close($conn);
                     return response($errorMsg, 400);
                 }
+                mysqli_select_db($conn, $dbName);
             }
             // 先建表
             $db_data   = file_get_contents($db_base_data);
             $sqlFormat = sql_split($db_data);
             $counts    = count($sqlFormat);
-            mysqli_select_db($conn, $dbName);
             for ($index = 0; $index < $counts; $index++) {
                 $sql = trim($sqlFormat[$index]);
                 if (strstr($sql, 'CREATE TABLE')) {
@@ -79,7 +80,7 @@ class InstallCheck implements MiddlewareInterface
             mysqli_close($conn);
             @touch($lock_file);
             return $handler($request);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             $errorMsg = "连接 MySQL 失败: " . mysqli_connect_error() . $e->getMessage();
             return response($errorMsg, 400);
         }
