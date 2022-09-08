@@ -70,7 +70,7 @@ class UploadService
         $endpoint        = $config['oss_endpoint'];
         $bucket          = $config['oss_bucket'];
         if ($file->isValid()) {
-            $object = $this->setFilePath($file, 'blog -static/');
+            $object = $this->setFilePath($file, 'blog-static/');
             try {
                 $ossClient       = new OssClient($accessKeyId, $accessKeySecret, $endpoint);
                 $_rs             = $ossClient->putObject($bucket, $object, file_get_contents($file->getRealPath()));
