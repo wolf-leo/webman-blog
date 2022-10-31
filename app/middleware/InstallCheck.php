@@ -41,12 +41,12 @@ class InstallCheck implements MiddlewareInterface
             $errorMsg = "数据库基础获取异常，请确认{$sql_data}文件是否存在";
             return response($errorMsg, 400);
         }
-        $dbHost    = env('db_host');
-        $dbUser    = env('db_username');
-        $dbPwd     = env('db_password');
-        $dbPort    = env('db_port');
-        $dbCharset = env('db_charset');
-        $dbName    = env('db_database');
+        $dbHost    = env('DB_HOST');
+        $dbUser    = env('DB_USERNAME');
+        $dbPwd     = env('DB_PASSWORD');
+        $dbPort    = env('DB_PORT');
+        $dbCharset = env('DB_CHARSET');
+        $dbName    = env('DB_DATABASE');
         try {
             $conn = mysqli_connect($dbHost, $dbUser, $dbPwd, null, $dbPort);
             mysqli_query($conn, "SET NAMES {$dbCharset}");
