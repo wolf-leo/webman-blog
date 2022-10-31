@@ -12,7 +12,7 @@
  * @license   http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
-namespace support\View;
+namespace support\view;
 
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
@@ -20,7 +20,7 @@ use Webman\View;
 
 /**
  * Class Blade
- * @package Support\View
+ * @package support\view
  */
 class Twig implements View
 {
@@ -57,6 +57,10 @@ class Twig implements View
             $base_view_path = $plugin ? \base_path() . "/plugin/$plugin/app" : \app_path();
             $view_path = $app === '' ? "$base_view_path/view/" : "$base_view_path/$app/view/";
             $views[$key] = new Environment(new FilesystemLoader($view_path), \config("{$config_prefix}view.options", []));
+            $extension = \config("{$config_prefix}view.extension");
+            if ($extension) {
+                $extension($views[$key]);
+            }
         }
         $vars = \array_merge(static::$_vars, $vars);
         $content = $views[$key]->render("$template.$view_suffix", $vars);

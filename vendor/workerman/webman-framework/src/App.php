@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of webman.
  *
@@ -18,6 +19,9 @@ use Closure;
 use FastRoute\Dispatcher;
 use Monolog\Logger;
 use Psr\Container\ContainerInterface;
+use ReflectionFunction;
+use ReflectionFunctionAbstract;
+use ReflectionMethod;
 use Throwable;
 use Webman\Exception\ExceptionHandler;
 use Webman\Exception\ExceptionHandlerInterface;
@@ -118,7 +122,8 @@ class App
                 return static::send($connection, $callback($request), $request);
             }
 
-            if (static::unsafeUri($connection, $path, $request) ||
+            if (
+                static::unsafeUri($connection, $path, $request) ||
                 static::findFile($connection, $path, $key, $request) ||
                 static::findRoute($connection, $path, $key, $request)
             ) {
@@ -126,13 +131,13 @@ class App
             }
 
             $controller_and_action = static::parseControllerAction($path);
-            if (!$controller_and_action || Route::hasDisableDefaultRoute()) {
+            $plugin = $controller_and_action['plugin'] ?? '';
+            if (!$controller_and_action || Route::hasDisableDefaultRoute($plugin)) {
                 $callback = static::getFallback();
                 $request->app = $request->controller = $request->action = '';
                 static::send($connection, $callback($request), $request);
                 return null;
             }
-            $plugin = $controller_and_action['plugin'];
             $app = $controller_and_action['app'];
             $controller = $controller_and_action['controller'];
             $action = $controller_and_action['action'];
@@ -177,12 +182,14 @@ class App
      */
     protected static function unsafeUri(TcpConnection $connection, string $path, $request)
     {
-        if (\strpos($path, '..') !== false ||
+        if (
+            !$path ||
+            \strpos($path, '..') !== false ||
             \strpos($path, "\\") !== false ||
-            \strpos($path, "\0") !== false ||
-            \strpos($path, '//') !== false || !$path) {
+            \strpos($path, "\0") !== false
+        ) {
             $callback = static::getFallback();
-            $request->app = $request->controller = $request->action = '';
+            $request->plugin = $request->app = $request->controller = $request->action = '';
             static::send($connection, $callback($request), $request);
             return true;
         }
@@ -196,7 +203,12 @@ class App
     {
         // when route, controller and action not found, try to use Route::fallback
         return Route::getFallback() ?: function () {
-            return new Response(404, [], \file_get_contents(static::$_publicPath . '/404.html'));
+            try {
+                $notFoundContent = \file_get_contents(static::$_publicPath . '/404.html');
+            } catch (Throwable $e) {
+                $notFoundContent = '404 Not Found';
+            }
+            return new Response(404, [], $notFoundContent);
         };
     }
 
@@ -233,7 +245,7 @@ class App
     /**
      * @param $app
      * @param $call
-     * @param null $args
+     * @param array|null $args
      * @param bool $with_global_middleware
      * @param RouteObject $route
      * @return callable
@@ -251,24 +263,53 @@ class App
         $middlewares = \array_merge($middlewares, Middleware::getMiddleware($plugin, $app, $with_global_middleware));
 
         foreach ($middlewares as $key => $item) {
-            $middlewares[$key][0] = static::container($plugin)->get($item[0]);
+            $middleware = $item[0];
+            if (is_string($middleware)) {
+                $middleware = static::container($plugin)->get($middleware);
+            } elseif ($middleware instanceof \Closure) {
+                $middleware = call_user_func($middleware, static::container($plugin));
+            }
+            if (!$middleware instanceof MiddlewareInterface) {
+                throw new \InvalidArgumentException('Not support middleware type');
+            }
+            $middlewares[$key][0] = $middleware;
         }
-        $controller_reuse = static::config($plugin, 'app.controller_reuse', true);
+
+        $need_inject = static::isNeedInject($call, $args);
         if (\is_array($call) && \is_string($call[0])) {
+            $controller_reuse = static::config($plugin, 'app.controller_reuse', true);
             if (!$controller_reuse) {
-                $call = function ($request, ...$args) use ($call, $plugin) {
-                    $call[0] = static::container($plugin)->make($call[0]);
-                    return $call($request, ...$args);
-                };
+                if ($need_inject) {
+                    $call = function ($request, ...$args) use ($call, $plugin) {
+                        $call[0] = static::container($plugin)->make($call[0]);
+                        $reflector = static::getReflector($call);
+                        $args = static::resolveMethodDependencies($plugin, $request, $args, $reflector);
+                        return $call(...$args);
+                    };
+                    $need_inject = false;
+                } else {
+                    $call = function ($request, ...$args) use ($call, $plugin) {
+                        $call[0] = static::container($plugin)->make($call[0]);
+                        return $call($request, ...$args);
+                    };
+                }
             } else {
                 $call[0] = static::container($plugin)->get($call[0]);
             }
         }
 
+        if ($need_inject) {
+            $call = static::resolveInject($plugin, $call);
+        }
+
         if ($middlewares) {
             $callback = \array_reduce($middlewares, function ($carry, $pipe) {
                 return function ($request) use ($carry, $pipe) {
-                    return $pipe($request, $carry);
+                    try {
+                        return $pipe($request, $carry);
+                    } catch (Throwable $e) {
+                        return static::exceptionResponse($e, $request);
+                    }
                 };
             }, function ($request) use ($call, $args) {
                 try {
@@ -302,6 +343,132 @@ class App
 
     /**
      * @param string $plugin
+     * @param array|Closure $call
+     * @param null|array $args
+     * @return Closure
+     * @see Dependency injection through reflection information
+     */
+    protected static function resolveInject(string $plugin, $call)
+    {
+        return function (Request $request, ...$args) use ($plugin, $call) {
+            $reflector = static::getReflector($call);
+            $args = static::resolveMethodDependencies($plugin, $request, $args, $reflector);
+            return $call(...$args);
+        };
+    }
+
+    /**
+     * Check whether inject is required
+     *
+     * @param $call
+     * @param $args
+     * @return bool
+     * @throws \ReflectionException
+     */
+    protected static function isNeedInject($call, $args)
+    {
+        if (\is_array($call) && !\method_exists($call[0], $call[1])) {
+            return false;
+        }
+        $args = $args ?: [];
+        $reflector = static::getReflector($call);
+        $reflection_parameters = $reflector->getParameters();
+        if (!$reflection_parameters) {
+            return false;
+        }
+        $first_parameter = \current($reflection_parameters);
+        unset($reflection_parameters[\key($reflection_parameters)]);
+        $adapters_list = ['int', 'string', 'bool', 'array', 'object', 'float', 'mixed', 'resource'];
+        foreach ($reflection_parameters as $parameter) {
+            if ($parameter->hasType() && !\in_array($parameter->getType()->getName(), $adapters_list)) {
+                return true;
+            }
+        }
+        if (!$first_parameter->hasType()) {
+            if (\count($args) <= count($reflection_parameters)) {
+                return false;
+            }
+            return true;
+        } elseif (!\is_a(static::$_request, $first_parameter->getType()->getName())) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Get reflector.
+     *
+     * @param $call
+     * @return void
+     * @throws \ReflectionException
+     */
+    protected static function getReflector($call)
+    {
+        if ($call instanceof Closure) {
+            return new ReflectionFunction($call);
+        }
+        return new ReflectionMethod($call[0], $call[1]);
+    }
+
+    /**
+     * Return dependent parameters
+     *
+     * @param string $plugin
+     * @param Request $request
+     * @param array $args
+     * @param ReflectionFunctionAbstract $reflector
+     * @return array
+     */
+    protected static function resolveMethodDependencies(string $plugin, Request $request, array $args, ReflectionFunctionAbstract $reflector)
+    {
+        // Specification parameter information
+        $args = \array_values($args);
+        $parameters = [];
+        // An array of reflection classes for loop parameters, with each $parameter representing a reflection object of parameters
+        foreach ($reflector->getParameters() as $parameter) {
+            // Parameter quota consumption
+            if ($parameter->hasType()) {
+                $name = $parameter->getType()->getName();
+                switch ($name) {
+                    case 'int':
+                    case 'string':
+                    case 'bool':
+                    case 'array':
+                    case 'object':
+                    case 'float':
+                    case 'mixed':
+                    case 'resource':
+                        goto _else;
+                    default:
+                        if (\is_a(static::$_request, $name)) {
+                            //Inject Request
+                            $parameters[] = $request;
+                        } else {
+                            $parameters[] = static::container($plugin)->make($name);
+                        }
+                        break;
+                }
+            } else {
+                _else:
+                // The variable parameter
+                if (null !== \key($args)) {
+                    $parameters[] = \current($args);
+                } else {
+                    // Indicates whether the current parameter has a default value.  If yes, return true
+                    $parameters[] = $parameter->isDefaultValueAvailable() ? $parameter->getDefaultValue() : null;
+                }
+                // Quota of consumption variables
+                \next($args);
+            }
+        }
+
+        // Returns the result of parameters replacement
+        return $parameters;
+    }
+
+    /**
+     * @param string $plugin
      * @return ContainerInterface
      */
     public static function container(string $plugin = '')
@@ -310,7 +477,7 @@ class App
     }
 
     /**
-     * @return Request
+     * @return Request|\support\Request
      */
     public static function request()
     {
@@ -454,6 +621,7 @@ class App
      */
     protected static function parseControllerAction(string $path)
     {
+        $path = \str_replace('-', '', $path);
         $path_explode = \explode('/', trim($path, '/'));
         $is_plugin = isset($path_explode[1]) && $path_explode[0] === 'app';
         $config_prefix = $is_plugin ? "plugin.{$path_explode[1]}." : '';
@@ -476,19 +644,22 @@ class App
      * @param $path_explode
      * @param $action
      * @param $suffix
+     * @param $class_prefix
      * @return array|false
      * @throws \ReflectionException
      */
     protected static function guessControllerAction($path_explode, $action, $suffix, $class_prefix)
     {
-        $map[] = "$class_prefix\\app\\controller\\" . \implode('\\', $path_explode);
+        $map[] = trim("$class_prefix\\app\\controller\\" . \implode('\\', $path_explode), '\\');
         foreach ($path_explode as $index => $section) {
             $tmp = $path_explode;
             \array_splice($tmp, $index, 1, [$section, 'controller']);
-            $map[] = "$class_prefix\\" . \implode('\\', \array_merge(['app'], $tmp));
+            $map[] = trim("$class_prefix\\" . \implode('\\', \array_merge(['app'], $tmp)), '\\');
         }
-        $last_index = \count($map) - 1;
-        $map[$last_index] = \trim($map[$last_index], '\\') . '\\index';
+        foreach ($map as $item) {
+            $map[] = $item . '\\index';
+        }
+
         foreach ($map as $controller_class) {
             $controller_class .= $suffix;
             if ($controller_action = static::getControllerAction($controller_class, $action)) {
@@ -506,12 +677,16 @@ class App
      */
     protected static function getControllerAction(string $controller_class, string $action)
     {
-        if (static::loadController($controller_class) && ($controller_class = (new \ReflectionClass($controller_class))->name) && \method_exists($controller_class, $action)) {
+        // Disable calling magic methods
+        if (\strpos($action, '__') === 0) {
+            return false;
+        }
+        if (($controller_class = static::getController($controller_class)) && ($action = static::getAction($controller_class, $action))) {
             return [
                 'plugin' => static::getPluginByClass($controller_class),
                 'app' => static::getAppByController($controller_class),
                 'controller' => $controller_class,
-                'action' => static::getRealMethod($controller_class, $action)
+                'action' => $action
             ];
         }
         return false;
@@ -519,43 +694,78 @@ class App
 
     /**
      * @param string $controller_class
-     * @return bool
+     * @return string|false
+     * @throws \ReflectionException
      */
-    protected static function loadController(string $controller_class)
+    protected static function getController(string $controller_class)
     {
         if (\class_exists($controller_class)) {
-            return true;
+            return (new \ReflectionClass($controller_class))->name;
         }
         $explodes = \explode('\\', strtolower(ltrim($controller_class, '\\')));
         $base_path = $explodes[0] === 'plugin' ? BASE_PATH . '/plugin' : static::$_appPath;
         unset($explodes[0]);
         $file_name = \array_pop($explodes) . '.php';
-        $finded = true;
+        $found = true;
         foreach ($explodes as $path_section) {
-            if (!$finded) {
+            if (!$found) {
                 break;
             }
             $dirs = Util::scanDir($base_path, false);
-            $finded = false;
+            $found = false;
             foreach ($dirs as $name) {
                 if (\strtolower($name) === $path_section) {
                     $base_path = "$base_path/$name";
-                    $finded = true;
+                    $found = true;
                     break;
                 }
             }
         }
-        if (!$finded) {
+        if (!$found) {
             return false;
         }
         foreach (\scandir($base_path) ?: [] as $name) {
             if (\strtolower($name) === $file_name) {
                 require_once "$base_path/$name";
                 if (\class_exists($controller_class, false)) {
-                    return true;
+                    return (new \ReflectionClass($controller_class))->name;
                 }
             }
         }
+        return false;
+    }
+
+    /**
+     * @param string $controller_class
+     * @param string $action
+     * @return string|false
+     */
+    protected static function getAction(string $controller_class, string $action)
+    {
+        $methods = \get_class_methods($controller_class);
+        $action = \strtolower($action);
+        $found = false;
+        foreach ($methods as $candidate) {
+            if (\strtolower($candidate) === $action) {
+                $action = $candidate;
+                $found = true;
+                break;
+            }
+        }
+
+        if ($found) {
+            return $action;
+        }
+
+        // Action is not public method
+        if (\method_exists($controller_class, $action)) {
+            return false;
+        }
+
+        if (\method_exists($controller_class, '__call')) {
+            return $action;
+        }
+
         return false;
     }
 
@@ -631,5 +841,4 @@ class App
     {
         return Config::get($plugin ? "plugin.$plugin.$key" : $key, $default);
     }
-
 }

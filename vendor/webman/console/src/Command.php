@@ -17,11 +17,20 @@ class Command extends Application
         $dir_iterator = new \RecursiveDirectoryIterator($path);
         $iterator = new \RecursiveIteratorIterator($dir_iterator);
         foreach ($iterator as $file) {
-            if (is_dir($file)) {
+            /** @var \SplFileInfo $file */
+            if (strpos($file->getFilename(), '.') === 0) {
                 continue;
             }
-            $class_name = $namspace.'\\'.basename($file, '.php');
-            if (!is_a($class_name, Commands::class, true)) {
+            if ($file->getExtension() !== 'php') {
+                continue;
+            }
+            // abc\def.php
+            $relativePath = str_replace(str_replace('/', '\\', $path . '\\'), '', str_replace('/', '\\', $file->getRealPath()));
+            // app\command\abc
+            $realNamespace = trim($namspace . '\\' . trim(dirname(str_replace('\\', DIRECTORY_SEPARATOR, $relativePath)), '.'), '\\');
+            // app\command\doc\def
+            $class_name = trim($realNamespace . '\\' . $file->getBasename('.php'), '\\');
+            if (!class_exists($class_name) || !is_a($class_name, Commands::class, true)) {
                 continue;
             }
             $this->add(new $class_name);

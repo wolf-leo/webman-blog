@@ -76,20 +76,13 @@ class LaravelDb implements Bootstrap
 
         // Heartbeat
         if ($worker) {
-            Timer::add(55, function () use ($default, $connections) {
-                if (!class_exists(Connection::class, false)) {
-                    return;
-                }
-                foreach ($connections as $key => $item) {
-                    if ($item['driver'] == 'mysql') {
+            Timer::add(55, function () use ($default, $connections, $capsule) {
+                foreach ($capsule->getDatabaseManager()->getConnections() as $connection) {
+                    /* @var \Illuminate\Database\MySqlConnection $connection **/
+                    if ($connection->getConfig('driver') == 'mysql') {
                         try {
-                            if ($key == $default) {
-                                Db::select('select 1');
-                            } else {
-                                Db::connection($key)->select('select 1');
-                            }
-                        } catch (Throwable $e) {
-                        }
+                            $connection->select('select 1');
+                        } catch (Throwable $e) {}
                     }
                 }
             });
@@ -97,14 +90,22 @@ class LaravelDb implements Bootstrap
 
         // Paginator
         if (class_exists(Paginator::class)) {
-            Paginator::queryStringResolver(function () {
-                return request()->queryString();
-            });
+            if (method_exists(Paginator::class, 'queryStringResolver')) {
+                Paginator::queryStringResolver(function () {
+                    $request = request();
+                    return $request ? $request->queryString() : null;
+                });
+            }
             Paginator::currentPathResolver(function () {
-                return request()->path();
+                $request = request();
+                return $request ? $request->path(): '/';
             });
             Paginator::currentPageResolver(function ($page_name = 'page') {
-                $page = (int)request()->input($page_name, 1);
+                $request = request();
+                if (!$request) {
+                    return 1;
+                }
+                $page = (int)($request->input($page_name, 1));
                 return $page > 0 ? $page : 1;
             });
         }

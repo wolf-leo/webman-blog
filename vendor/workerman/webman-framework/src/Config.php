@@ -76,6 +76,14 @@ class Config
     /**
      * @return void
      */
+    public static function clear()
+    {
+        static::$_config = [];
+    }
+
+    /**
+     * @return void
+     */
     protected static function formatConfig()
     {
         $config = static::$_config;
@@ -202,18 +210,18 @@ class Config
         }
         $key_array = \explode('.', $key);
         $value = static::$_config;
-        $finded = true;
+        $found = true;
         foreach ($key_array as $index) {
             if (!isset($value[$index])) {
                 if (static::$_loaded) {
                     return $default;
                 }
-                $finded = false;
+                $found = false;
                 break;
             }
             $value = $value[$index];
         }
-        if ($finded) {
+        if ($found) {
             return $value;
         }
         return static::read($key, $default);

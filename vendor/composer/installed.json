@@ -3792,26 +3792,27 @@
         },
         {
             "name": "webman/console",
-            "version": "v1.0.27",
-            "version_normalized": "1.0.27.0",
+            "version": "v1.2.16",
+            "version_normalized": "1.2.16.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/webman-php/console.git",
-                "reference": "e450967eaabc43eb0c93cfcd6d8f420c16e22b67"
+                "reference": "252868f948fe397e386577fa6ce0e7487ffc98ba"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webman-php/console/zipball/e450967eaabc43eb0c93cfcd6d8f420c16e22b67",
-                "reference": "e450967eaabc43eb0c93cfcd6d8f420c16e22b67",
+                "url": "https://api.github.com/repos/webman-php/console/zipball/252868f948fe397e386577fa6ce0e7487ffc98ba",
+                "reference": "252868f948fe397e386577fa6ce0e7487ffc98ba",
                 "shasum": ""
             },
             "require": {
+                "doctrine/inflector": "^2.0",
                 "symfony/console": ">=5.0"
             },
             "require-dev": {
                 "workerman/webman": "^1.0"
             },
-            "time": "2022-07-01T08:59:02+00:00",
+            "time": "2022-10-08T13:46:48+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -3991,17 +3992,17 @@
         },
         {
             "name": "workerman/webman-framework",
-            "version": "v1.4.3",
-            "version_normalized": "1.4.3.0",
+            "version": "v1.4.9",
+            "version_normalized": "1.4.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/walkor/webman-framework.git",
-                "reference": "0f4d5b6c58823656bdc9603f762d4be6e41ae380"
+                "reference": "faf13663be7cad1608217a0ec2e3cb8913f866dc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/walkor/webman-framework/zipball/0f4d5b6c58823656bdc9603f762d4be6e41ae380",
-                "reference": "0f4d5b6c58823656bdc9603f762d4be6e41ae380",
+                "url": "https://api.github.com/repos/walkor/webman-framework/zipball/faf13663be7cad1608217a0ec2e3cb8913f866dc",
+                "reference": "faf13663be7cad1608217a0ec2e3cb8913f866dc",
                 "shasum": ""
             },
             "require": {
@@ -4013,7 +4014,7 @@
             "suggest": {
                 "ext-event": "For better performance. "
             },
-            "time": "2022-08-15T12:35:14+00:00",
+            "time": "2022-10-20T06:42:33+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -4034,33 +4035,23 @@
                 {
                     "name": "walkor",
                     "email": "walkor@workerman.net",
-                    "homepage": "http://www.workerman.net",
+                    "homepage": "https://www.workerman.net",
                     "role": "Developer"
                 }
             ],
             "description": "High performance HTTP Service Framework.",
-            "homepage": "http://www.workerman.net",
+            "homepage": "https://www.workerman.net",
             "keywords": [
                 "High Performance",
                 "http service"
             ],
             "support": {
                 "email": "walkor@workerman.net",
-                "forum": "http://wenda.workerman.net/",
+                "forum": "https://wenda.workerman.net/",
                 "issues": "https://github.com/walkor/webman/issues",
                 "source": "https://github.com/walkor/webman-framework",
-                "wiki": "http://doc.workerman.net/"
+                "wiki": "https://doc.workerman.net/"
             },
-            "funding": [
-                {
-                    "url": "https://opencollective.com/walkor",
-                    "type": "open_collective"
-                },
-                {
-                    "url": "https://www.patreon.com/walkor",
-                    "type": "patreon"
-                }
-            ],
             "install-path": "../workerman/webman-framework"
         },
         {

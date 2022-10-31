@@ -25,7 +25,7 @@
   },
   "require": {
     "php": ">=7.2",
-    "workerman/webman-framework": "1.4.3",
+    "workerman/webman-framework": "^1.4",
     "monolog/monolog": "^2.0",
     "webman/auto-route": "^1.0",
     "webman/think-orm": "1.0.2",
@@ -41,7 +41,7 @@
     "aliyuncs/oss-sdk-php": "^2.4",
     "qcloud/cos-sdk-v5": "^2.5",
     "jasongrimes/paginator": "^1.0",
-    "webman/console": "1.0.27"
+    "webman/console": "^1.2"
   },
   "suggest": {
     "ext-event": "For better performance. "

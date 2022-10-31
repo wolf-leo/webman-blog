@@ -1,6 +1,8 @@
 <?php
 namespace Webman\Console;
 
+use Doctrine\Inflector\InflectorFactory;
+
 class Util
 {
     public static function nameToNamespace($name)
