@@ -5,7 +5,7 @@
             <div class="layui-input-block">
                 <select class="layui-select" name="category_id">
                     {volist name='category' id='vo'}
-                    <option value="{$key}">{$vo}</option>
+                    <option value="{$key}" {if $info.category_id==$key}selected{/if}>{$vo}</option>
                     {/volist}
                 </select>
             </div>

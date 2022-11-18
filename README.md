@@ -14,6 +14,7 @@
 - `webman` 官方文档地址：[https://www.workerman.net/doc/webman/](https://www.workerman.net/doc/webman/)
 - 程序默认关闭 `app_debug` ，如需调试，请自行前往根目录中的 `.env` 文件配置
 - 程序默认静默安装数据库，默认数据库名 `my_blog_2022`
+- 默认启用 `template_002` 模板，可在 `.env` 文件中配置 `DEFAULT_TEMPLATE` 【目前可选 `template_001` `template_002` 】
 
 ### 配置说明
 

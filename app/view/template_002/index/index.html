@@ -1,0 +1,58 @@
+{layout name="template_002/default" /}
+{if !empty($banner)}
+<div class="swiper">
+    <div class="swiper-wrapper">
+        {volist name='banner' id='vo'}
+        <div class="swiper-slide">
+            <a href="{$vo.link|default='/'}" target="{$vo.target==1 ? '_self' : '_blank'}">
+                <img class="swiper-lazy"  data-src="{$vo.img}"/>
+                <div class="swiper-lazy-preloader"></div>
+            </a>
+            <div class="swiper-slide-text">
+                <div class="title">{$vo.title}</div>
+                <div class="desc">{$vo.desc}</div>
+            </div>
+        </div>
+        {/volist}
+    </div>
+    <!-- 如果需要导航按钮 -->
+    <div class="swiper-button-prev"></div>
+    <div class="swiper-button-next"></div>
+</div>
+{/if}
+<div class="index_ajax">
+    {volist name='list' id='vo'}
+    <article class="index_list">
+        <div class="index_list_box">
+            <div class="index_list_left">
+                <a href="/info/{$vo.id}/">
+                    <div class="index_list_body">
+                        <h2 class="index_list_name">
+                            {$vo.title}
+                        </h2>
+                        <div class="index_list_excerpt">
+                            {$vo.desc}...
+                        </div>
+                    </div>
+                </a>
+                <div class="index_list_foot">
+                    <span><a href="/category/{$vo.category_id}/" rel="tag">{$category[$vo['category_id']]|default='-'}</a></span><i class="text-primary">•</i>
+                    <time>{$vo.article_date}</time>
+                </div>
+            </div>
+            {if $vo.img}
+            <div class="index_list_right">
+                <div class="index_list_img">
+                    <a href="/info/{$vo.id}/">
+                        <img class="lazy" src="/static/template_002/images/loading.gif" data-src="{$vo.img}">
+                    </a>
+                </div>
+            </div>
+            {/if}
+        </div>
+    </article>
+    {/volist}
+</div>
+<div class="page-navigator">
+    {$paginator|default=''|raw}
+</div>

@@ -1,0 +1,54 @@
+{layout name="template_002/default" /}
+<div class="sitemap">当前位置：<a href="/">首页</a> &gt; <a href="/category/{$info.category_id|default=0}/">{$category[$info.category_id]|default='-'}</a> &gt; {$info.title}</div>
+<article class="post">
+    <div class="postz_pic">
+        <div class="postz_pic_box">
+            <div class="postz_pic_frame">
+                <div class="postz_pic_basic">
+                    <h1 class="postz_name">{$info.title}</h1>
+                    <div class="postz_pic_info">
+                        <span><a href="/category/{$info.category_id|default=0}/">{$category[$info.category_id]|default='-'}</a></span>
+                        <i class="text-primary">•</i>
+                        <time>{$info.article_date}</time>
+                        <i class="text-primary">•</i>
+                        <i class="iconfont icon-huo"></i>
+                        <span>{$info.click}</span>
+                        <i class="iconfont iconxiegang"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post_song">
+        <div class="post_song_word">
+            <div class="songmax words">
+                {$info.content|raw}
+            </div>
+        </div>
+    </div>
+</article>
+{if !empty($more)}
+<section class="article_more">
+    <div class="article_more_head">
+        <span>推荐阅读</span>
+    </div>
+    <div class="article_more_list">
+        {volist name='more' id='vo'}
+        <div class="article_more_box">
+            <div class="article_more_show">
+                <a href="/info/{$vo.id}/">
+                    <div class="article_more_img">
+                        <img class="lazy" src="/static/template_002/images/article.jpg" data-src="{$vo.img}">
+                    </div>
+                    <div class="article_more_body">
+                        <div class="article_more_name">
+                            <div class="inks_qm">{$vo.title}。</div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        {/volist}
+    </div>
+</section>
+{/if}

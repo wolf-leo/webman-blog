@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="{:sysConfig('site','site_ico')}">
+    <title>{:sysConfig('site','site_name','My Blog')}</title>
+    <meta name="keywords" content="{:sysConfig('site','site_name','My Blog')}"/>
+    <meta name="description" content="{:sysConfig('site','site_name','My Blog')}"/>
+    <link rel="stylesheet" href="/static/template_001/css/page-builder.css" type="text/css" media="all">
+    <link rel="stylesheet" href="/static/template_001/css/style-core.css" type="text/css" media="all">
+    <link rel="stylesheet" href="/static/template_001/css/akea-style-custom.css" type="text/css" media="all">
+    <link rel="stylesheet" href="/static/template_001/css/swiper-bundle.min.css" type="text/css" media="all">
+    <link rel="stylesheet" href="/static/template_001/css/web/public.css" type="text/css" media="all">
+    <link rel="stylesheet" href="/static/template_001/lib/font-awesome-4.7.0/css/font-awesome.min.css">
+    <script type="text/javascript" src="/static/js/jquery.min.js"></script>
+</head>
+<body class="home page-template-default page page-id-2039 gdlr-core-body woocommerce-no-js akea-body akea-body-front akea-full  akea-with-sticky-navigation  akea-blockquote-style-1 gdlr-core-link-to-lightbox">
+<div class="akea-mobile-header-wrap">
+    <div class="akea-mobile-header akea-header-background akea-style-slide akea-sticky-mobile-navigation "
+         id="akea-mobile-header">
+        <div class="akea-mobile-header-container akea-container clearfix">
+            <div class="akea-logo  akea-item-pdlr">
+                <div class="akea-logo-inner">
+                    <a class href="/">
+                        <img src="{:sysConfig('logo','site_blog_logo','/static/template_001/images/logo.jpg')}" width="50"/>
+                    </a>
+                </div>
+            </div>
+            <div class="akea-mobile-menu-right">
+                <div class="akea-overlay-menu akea-mobile-menu" id="akea-mobile-menu">
+                    <a class="akea-overlay-menu-icon akea-mobile-menu-button akea-mobile-button-hamburger" href="javascript:;">
+                        <span></span>
+                    </a>
+                    <div class="akea-overlay-menu-content akea-navigation-font">
+                        <div class="akea-overlay-menu-close">
+                            <i class="fa fa-times fa-lg"></i>
+                        </div>
+                        <div class="akea-overlay-menu-row">
+                            <div class="akea-overlay-menu-cell">
+                                <ul id="menu-main-navigation" class="menu">
+                                    <li class="menu-item menu-item-home current-menu-item" style="transition-delay: 0ms;">
+                                        <a href="/" aria-current="page">首页</a>
+                                    </li>
+                                    <li class="menu-item menu-item-has-children" style="transition-delay: 300ms;">
+                                        <a href="javascript:;" class="akea-no-preload">分类</a>
+                                        <ul class="sub-menu" style="">
+                                            {volist name='category' id='vo'}
+                                            <li class="menu-item">
+                                                <a href="/category/{$key}/">{$vo}</a>
+                                            </li>
+                                            {/volist}
+                                        </ul>
+                                    </li>
+                                    <li class="menu-item" style="transition-delay: 600ms;"><a href="/about/me/">关于我</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="akea-body-outer-wrapper ">
+    <div class="akea-body-wrapper clearfix  akea-with-frame">
+        <header class="akea-header-wrap akea-header-style-plain  akea-style-splitted-menu akea-sticky-navigation akea-style-slide">
+            <div class="akea-header-container  akea-container">
+                <div class="akea-header-container-inner clearfix">
+                    <div class="akea-navigation akea-item-pdlr clearfix ">
+                        <div class="akea-main-menu" id="akea-main-menu">
+                            <ul id="menu-main-navigation-1" class="sf-menu">
+                                <li class="menu-item menu-item-home akea-normal-menu">
+                                    <a href="/" class="sf-with-ul-pre">
+                                        首页
+                                    </a>
+                                </li>
+                                <li class="menu-item {if $controller=='category'}current-menu-item{/if} menu-item-has-children akea-normal-menu ">
+                                    <a href="javascript:;" class="sf-with-ul-pre">
+                                        分类
+                                    </a>
+                                    <ul class="sub-menu">
+                                        {volist name='category' id='vo'}
+                                        <li class="menu-item" data-size="60">
+                                            <a href="/category/{$key}/">{$vo}</a>
+                                        </li>
+                                        {/volist}
+                                    </ul>
+                                </li>
+                                <li class="akea-center-nav-menu-item">
+                                    <div class="akea-above-logo">
+                                        <a href="/">
+                                            <img src="{:sysConfig('logo','site_blog_logo','/static/template_001/images/logo.jpg')}">
+                                        </a>
+                                    </div>
+                                    <div class="akea-logo  akea-item-pdlr">
+                                        <div class="akea-logo-inner">
+                                            <a class href="/">{:sysConfig('site','site_name','My Blog')}</a>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="menu-item akea-normal-menu {if $action=='about_me'}current-menu-item{/if}">
+                                    <a href="/about/me/">关于我</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        {__CONTENT__}
+
+        <footer>
+            <div class="akea-copyright-wrapper">
+                <div class="akea-copyright-container akea-container clearfix">
+                    <div class="akea-copyright-left akea-item-pdlr">
+                        Copyright © {:date('Y')}&nbsp;&nbsp;&nbsp;
+                        <a href="/">{:sysConfig('site','site_name','My Blog')}</a>&nbsp;&nbsp;&nbsp;
+                        <a href="https://beian.miit.gov.cn" target="_blank" rel="nofollow">{:sysConfig('site','site_icp')}</a>
+                    </div>
+                    <div class="akea-copyright-right akea-item-pdlr">
+                        <a href="/">首页</a>&nbsp;&nbsp;&nbsp;
+                        <a href="/about/me/">关于我</a>&nbsp;&nbsp;&nbsp;
+                        <a href="https://gitee.com/wolf18/webman-blog" target="_blank">
+                            <img src="https://gitee.com/wolf18/webman-blog/badge/star.svg?theme=dark"/>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+    <script type="text/javascript" src="/static/template_001/js/lazyload.min.js"></script>
+    <script type="text/javascript" src="/static/template_001/js/web.js"></script>
+    {:sysConfig('site','site_tongji')}
+</body>
+</html>

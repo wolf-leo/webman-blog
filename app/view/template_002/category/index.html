@@ -1,0 +1,38 @@
+{layout name="template_002/default" /}
+<div class="sitemap">当前位置：<a href="/">首页</a> &gt; <a href="/category/{$categoryInfo.id}/">{$categoryInfo.title}</a></div>
+<div class="index_ajax">
+    {volist name='list' id='vo'}
+    <article class="index_list">
+        <div class="index_list_box">
+            <div class="index_list_left">
+                <a href="/info/{$vo.id}/">
+                    <div class="index_list_body">
+                        <h2 class="index_list_name">
+                            {$vo.title}
+                        </h2>
+                        <div class="index_list_excerpt">
+                            {$vo.desc}...
+                        </div>
+                    </div>
+                </a>
+                <div class="index_list_foot">
+                    <span><a href="/category/{$vo.category_id}/" rel="tag">{$category[$vo['category_id']]|default='-'}</a></span><i class="text-primary">•</i>
+                    <time>{$vo.article_date}</time>
+                </div>
+            </div>
+            {if $vo.img}
+            <div class="index_list_right">
+                <div class="index_list_img">
+                    <a href="/info/{$vo.id}/">
+                        <img class="lazy" src="/static/images/loading.gif" data-src="{$vo.img}">
+                    </a>
+                </div>
+            </div>
+            {/if}
+        </div>
+    </article>
+    {/volist}
+</div>
+<div class="page-navigator">
+    {$paginator|default=''|raw}
+</div>

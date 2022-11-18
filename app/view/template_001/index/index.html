@@ -1,0 +1,98 @@
+{layout name="template_001/default" /}
+{if !empty($banner)}
+<div class="swiper mySwiper">
+    <div class="swiper-wrapper">
+        {volist name='banner' id='vo'}
+        <div class="swiper-slide">
+            <a href="{$vo.link|default='/'}" target="{$vo.target==1 ? '_self' : '_blank'}">
+                <div class="slide-inner" style="background-image:url({$vo.img})">
+                    <div class="text">
+                        <div class="title">{$vo.title|default=''}</div>
+                        <div class="desc">{$vo.desc|default=''}</div>
+                    </div>
+                </div>
+            </a>
+        </div>
+        {/volist}
+    </div>
+    <!-- 如果需要导航按钮 -->
+    <div class="swiper-button-prev"></div>
+    <div class="swiper-button-next"></div>
+</div>
+{/if}
+<div class="akea-page-wrapper" id="akea-page-wrapper">
+    <div class="gdlr-core-page-builder-body">
+        <div class="gdlr-core-pbf-wrapper" id="gdlr-core-wrapper-1">
+            <div class="gdlr-core-pbf-background-wrap">
+            </div>
+        </div>
+        <div class="gdlr-core-pbf-sidebar-wrapper ">
+            <div class="gdlr-core-pbf-sidebar-container gdlr-core-line-height-0 clearfix gdlr-core-js gdlr-core-container">
+                <div class="gdlr-core-pbf-sidebar-content  gdlr-core-column-40 gdlr-core-pbf-sidebar-padding gdlr-core-line-height gdlr-core-column-extend-left">
+                    <div class="gdlr-core-pbf-sidebar-content-inner" data-skin="Blog List">
+                        <div class="gdlr-core-pbf-element">
+                            <div class="gdlr-core-blog-item gdlr-core-item-pdb clearfix  gdlr-core-style-blog-full">
+                                <div class="gdlr-core-blog-item-holder gdlr-core-js-2 clearfix" data-layout="fitrows">
+                                    {volist name='list' id='vo'}
+                                    <div class="gdlr-core-item-list gdlr-core-blog-full  gdlr-core-item-mglr gdlr-core-style-left">
+                                        {if $vo.img}
+                                        <div class="gdlr-core-blog-thumbnail-wrap clearfix">
+                                            <div class="gdlr-core-blog-thumbnail gdlr-core-media-image  gdlr-core-opacity-on-hover gdlr-core-zoom-on-hover">
+                                                <a href="/info/{$vo.id}/">
+                                                    <img src="/static/template_001/images/loading.gif" data-src="{$vo.img}" width="1000" height="486">
+                                                </a>
+                                            </div>
+                                        </div>
+                                        {/if}
+                                        <div class="gdlr-core-blog-full-content-wrap">
+                                            <div class="gdlr-core-blog-full-head clearfix">
+                                                <div class="gdlr-core-blog-full-head-right">
+                                                    <h3 class="gdlr-core-blog-title gdlr-core-skin-title">
+                                                        <a href="/info/{$vo.id}/">{$vo.title}</a>
+                                                    </h3>
+                                                    <div class="gdlr-core-blog-info-wrapper gdlr-core-skin-divider">
+                                                        <div class="gdlr-core-blog-info gdlr-core-blog-info-font gdlr-core-skin-caption gdlr-core-blog-info-date">
+                                                            <a href="/info/{$vo.id}/">{$vo.article_date}</a>
+                                                        </div>
+                                                        <div class="gdlr-core-blog-info gdlr-core-blog-info-font gdlr-core-skin-caption gdlr-core-blog-info-category">
+                                                            <a href="/category/{$vo.category_id}/" rel="tag">
+                                                                {$category[$vo['category_id']]|default='-'}
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="gdlr-core-blog-content"><a href="/info/{$vo.id}/">{$vo.desc}...</a></div>
+                                        </div>
+                                    </div>
+                                    {/volist}
+                                </div>
+                                <div class="gdlr-core-pagination  gdlr-core-style-circle gdlr-core-right-align gdlr-core-item-pdlr">
+                                    {$paginator|default=''|raw}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="gdlr-core-pbf-sidebar-right gdlr-core-column-extend-right  akea-sidebar-area gdlr-core-column-20 gdlr-core-pbf-sidebar-padding  gdlr-core-line-height">
+                    <div class="gdlr-core-sidebar-item gdlr-core-item-pdlr">
+                        {include file='template_001/public/about_me' /}
+                        {include file='template_001/public/popular_article' /}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="/static/js/swiper-bundle.min.js"></script>
+<script>
+    $(function () {
+        var swiper = new Swiper(".mySwiper", {
+            loop: true,
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev",
+            },
+        });
+    })
+</script>

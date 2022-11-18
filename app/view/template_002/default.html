@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset=utf-8>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="{:sysConfig('site','site_ico')}">
+    <title>{:sysConfig('site','site_name','My Blog')}</title>
+    <meta name="keywords" content="{:sysConfig('site','site_keywords','My Blog')}"/>
+    <meta name="description" content="{:sysConfig('site','site_description','My Blog')}"/>
+    <meta name="template" content="Memory"/>
+    <link rel=stylesheet href="/static/template_002/css/web/alicdn_font.css">
+    <link rel="stylesheet" href="/static/template_002/css/swiper-bundle.min.css">
+    <link rel="stylesheet" href="/static/template_002/css/web/blog.css">
+</head>
+<body class="">
+<header id="header">
+    <div class="menu">
+        <div class="logo">
+            <a href="/">
+                <img class="logo-light" src="{:sysConfig('logo','site_blog_logo','/static/template_002/images/logo.jpg')}">
+                <img class="logo-dark d-none" src="{:sysConfig('logo','site_blog_logo','/static/template_002/images/logo.jpg')}">
+            </a>
+        </div>
+        <div class="menu_list">
+            <ul class="menu_ul">
+                <li class="menu_li"><a href="/">首页</a></li>
+                <li class="menu_li {if $controller=='category'}current{/if}">
+                    <a href="javascript:;" class="menu_li_a">分类</a>
+                    <ul class="sub-menu menu_list">
+                        {volist name='category' id='vo'}
+                        <li class="menu-item">
+                            <a href="/category/{$key}/">{$vo}</a>
+                        </li>
+                        {/volist}
+                    </ul>
+                </li>
+                <li class="menu_li {if $action=='about_me'}current{/if}"><a href="/about/me/">关于我</a></li>
+            </ul>
+        </div>
+        <div class="tools_btn">
+            <span class="yejian"><a href="javascript:switchNightMode()"><i class="iconfont icon-moon_circle"></i></a></span>
+            <span class="menu_btn" onclick="mobileShow()"><i class="iconfont icon-caidan1"></i></span>
+        </div>
+    </div>
+    <!--手机端菜单-->
+    <div onclick="mobileShow()" class="sap_mask mobile_mask"></div>
+    <div class="mobile_menu">
+        <div class="mobile_menu_head">
+            <button id="filter_off" class="mobile_menu_gb" onclick="mobileShow()"><i class="iconfont icon-guanbi"></i></button>
+        </div>
+        <div class="mobile_menu_list">
+            <ul class="mobile_menu_ul">
+                <li class="mobile_menu_li"><a href="/">首页</a></li>
+                <li class="mobile_menu_li {if $controller=='category'}current{/if}">
+                    <a href="javascript:;">分类</a>
+                    <ul class="sub-menu">
+                        {volist name='category' id='vo'}
+                        <li class="menu-item">
+                            <a href="/category/{$key}/">{$vo}</a>
+                        </li>
+                        {/volist}
+                    </ul>
+                </li>
+                <li class="mobile_menu_li {if $action=='about_me'}current{/if}"><a href="/about/me/">关于我</a></li>
+            </ul>
+        </div>
+    </div>
+</header>
+<div class="content content_top">
+
+    {__CONTENT__}
+
+</div>
+<footer>
+    <div class="copyright-wrapper">
+        <div class="copyright-container container clearfix">
+            <div class="copyright-left item-pdlr">
+                Copyright © {:date('Y')}&nbsp;&nbsp;&nbsp;
+                <a href="/">{:sysConfig('site','site_name','My Blog')}</a>&nbsp;&nbsp;&nbsp;
+                <a href="https://beian.miit.gov.cn" target="_blank" rel="nofollow">{:sysConfig('site','site_icp')}</a>
+            </div>
+            <div class="copyright-right item-pdlr">
+                <a href="/">首页</a>&nbsp;&nbsp;&nbsp;
+                <a href="/about/me/">关于我</a>
+            </div>
+        </div>
+    </div>
+</footer>
+<div class="tool">
+    <li id="top_to" class="tool_top"><a href="javascript:;">
+        <button><i class="iconfont icon-navigation1"></i></button>
+    </a></li>
+</div>
+<script src="/static/template_002/js/jquery.min.js"></script>
+<script src="/static/template_002/js/themes.js"></script>
+<script src="/static/template_002/js/swiper.min.js"></script>
+<script type="text/javascript" src="/static/template_002/js/jquery.lazyload.min.js"></script>
+<script type="text/javascript" src="/static/template_002/js/web.js"></script>
+</body>
+</html>

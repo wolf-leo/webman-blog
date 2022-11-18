@@ -24,7 +24,7 @@ class BlogBase
         $controllerClass = request()->controller;
         $controller      = strtolower(substr($controllerClass, strrpos($controllerClass, '\\') + 1));
         $action          = request()->action;
-        $template        = $controller . '/' . $action;
+        $template        = env('DEFAULT_TEMPLATE', 'template_001') . '/' . $controller . '/' . $action;
         $category        = Category::getColumn(['status' => 1], 'title', 'id', 'sort desc,id asc');
         $map[]           = ['status', '=', 1];
         $popular_list    = Article::getList($map, 'id,title,img,desc,c_time,article_date,category_id', 'click desc,id desc', 1, 10);
