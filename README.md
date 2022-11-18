@@ -48,7 +48,7 @@ server {
 ### 样式参考
 
 <center>
-<img alt="样式参考" height="1172" src="./public/static/template_001/images/WOLFCODE.png" width="422"/>
+<img alt="样式参考" height="1172" src="./public/static/template_002/images/wolfcode.png" width="422"/>
 </center>
 
 ### 如何运行
