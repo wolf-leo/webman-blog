@@ -22,33 +22,11 @@
     - 主要修改 `DB_USERNAME` （数据库用户） 和 `DB_PASSWORD` （数据库密码） 两个参数值
     - 程序默认数据库名 `my_blog_2022` 如果不喜欢，可修改 `DB_DATABASE` 参数值
     - 程序默认端口 `8787`，如果不喜欢，可修改 `APP_PORT` 参数值
-- 如需外网访问，搭配 `Nginx` 进行反向代理即可
-
-```
-server {
-
-    server_name 站点域名;
-    listen 80;
-    root /your_blog_path/public;
-
-    location / {
-    
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header Host $host;
-        
-        if (!-f $request_filename){
-            proxy_pass http://127.0.0.1:8787;   # 端口 8787 必须跟 APP_PORT 参数值一致
-        }
-        
-    }
-    
-}
-  ```
 
 ### 样式参考
 
 <center>
-<img alt="样式参考" height="1172" src="./public/static/template_002/images/wolfcode.png" width="422"/>
+<img alt="样式参考" height="860" src="./public/static/template_002/images/wolfcode.png" width="500"/>
 </center>
 
 ### 如何运行
@@ -77,8 +55,32 @@ server {
 >
 > > ```php start.php rload```
 
+- 启动后访问 `http://127.0.0.1:8787` 即可，其中端口号跟 `APP_PORT` 参数值相同
+- 如需外网访问，搭配 `Nginx` 进行反向代理即可
+
+```
+server {
+
+    server_name 站点域名;
+    listen 80;
+    root /your_blog_path/public;
+
+    location / {
+    
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header Host $host;
+        
+        if (!-f $request_filename){
+            proxy_pass http://127.0.0.1:8787;   # 端口 8787 必须跟 APP_PORT 参数值一致
+        }
+        
+    }
+    
+}
+  ```
+
 - 配置后访问 `http://你的域名/` 即可
-- 后台地址，在主访问域名后面+ `/admin` 即可，例如 `http://你的域名/admin` ,后台账号 `admin` 密码 `123456`
+- 后台地址，在主访问域名后面+ `/admin` 即可，例如 `http://你的域名/admin` ，后台账号 `admin` 密码 `123456`
 - <font color="red">特别提醒
     - 尽量不要在 `Windows` 系统下运行该程序，建议使用 `Linux` 环境运行
     - 程序底层已做好 `php8+` 兼容，请谨慎使用全局的 `composer update`
