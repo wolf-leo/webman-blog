@@ -3670,7 +3670,7 @@ input {
 }
 
 .swiper-slide img {
-    object-fit: fill;
+    object-fit: cover;
     width: 100%;
     height: 350px;
 }
