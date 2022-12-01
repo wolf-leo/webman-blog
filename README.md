@@ -1,7 +1,5 @@
 <h1 align="center">
-    <a href="https://www.wolfcode.net/info/239/" target="_blank">
-         <code>wolfcode-blog</code> 基于 <code>webman</code> 开源博客程序
-    </a>
+<a href="https://git.io/typing-svg"><img src="https://readme-typing-svg.herokuapp.com?font=Lexend+Deca&weight=900&size=24&duration=1500&pause=3000&color=C09380DF&background=65FFD900&center=true&vCenter=true&multiline=true&width=435&height=80&lines=wolfcode-blog;%E5%9F%BA%E4%BA%8E+webman+%E5%BC%80%E6%BA%90%E5%8D%9A%E5%AE%A2%E7%A8%8B%E5%BA%8F" alt="Typing SVG" /></a>
 </h1>
 
 [![GitHub](https://img.shields.io/badge/webman--blog-%40wolfcode-red?style=flat-square)](https://www.wolfcode.net)
@@ -10,11 +8,11 @@
 
 ### 程序简介
 
-- 依赖`webman`搭建【 需要 php>=7.4，建议 `php8.1` | MySQL>=5.7，建议 `MySQL8.0` 】
-- `webman` 官方文档地址：[https://www.workerman.net/doc/webman/](https://www.workerman.net/doc/webman/)
-- 程序默认关闭 `app_debug` ，如需调试，请自行前往根目录中的 `.env` 文件配置
-- 程序默认静默安装数据库，默认数据库名 `my_blog_2022`
-- 默认启用 `template_002` 模板，可在 `.env` 文件中配置 `DEFAULT_TEMPLATE` 【目前可选 `template_001` `template_002` 】
+- 🔧 依赖 `webman` 搭建【 需要 php>=7.4，建议 `php8.1` | MySQL>=5.7，建议 `MySQL8.0` 】
+- 📄 `webman` 官方文档地址：[https://www.workerman.net/doc/webman/](https://www.workerman.net/doc/webman/)
+- 💙 程序默认关闭 `app_debug` ，如需调试，请自行前往根目录中的 `.env` 文件配置
+- ⭐ 程序默认静默安装数据库，默认数据库名 `my_blog_2022`
+- 🤗  __默认启用 `template_002` 模板，可在 `.env` 文件中配置 `DEFAULT_TEMPLATE` 【目前可选 `template_001` `template_002` 】__
 
 ### 配置说明
 
