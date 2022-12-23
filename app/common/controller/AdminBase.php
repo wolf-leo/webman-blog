@@ -27,7 +27,7 @@ class AdminBase
      * @param  array  $assign
      * @return Response
      */
-    public function admin_tpl(array $assign = []): Response
+    protected function admin_tpl(array $assign = []): Response
     {
         $controllerClass = request()->controller;
         $controller      = strtolower(substr($controllerClass, strrpos($controllerClass, '\\') + 1));
@@ -47,19 +47,19 @@ class AdminBase
         return $this->isLogin;
     }
 
-    public function apiSuccess(array $data = [], string $msg = '操作成功', int $code = 1): Response
+    protected function apiSuccess(array $data = [], string $msg = '操作成功', int $code = 1): Response
     {
         $arr = compact('msg', 'code', 'data');
         return json($arr);
     }
 
-    public function apiError(string $msg = '操作失败', int $code = 0): Response
+    protected function apiError(string $msg = '操作失败', int $code = 0): Response
     {
         $arr = compact('msg', 'code');
         return json($arr);
     }
 
-    public function argsWhere(Request $request): array
+    protected function argsWhere(Request $request): array
     {
         $post    = $request->post();
         $page    = isset($post['page']) && !empty($post['page']) ? $post['page'] : 1;
