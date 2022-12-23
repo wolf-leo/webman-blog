@@ -19,7 +19,7 @@ class BlogBase
      * @param  array  $assign
      * @return Response
      */
-    public function blog_tpl(array $assign = []): Response
+    protected function blog_tpl(array $assign = []): Response
     {
         $controllerClass = request()->controller;
         $controller      = strtolower(substr($controllerClass, strrpos($controllerClass, '\\') + 1));
@@ -32,7 +32,7 @@ class BlogBase
         return view($template, $assign);
     }
 
-    public function jump404(): Response
+    protected function jump404(): Response
     {
         return view('public/404');
     }
