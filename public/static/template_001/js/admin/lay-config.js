@@ -7,7 +7,7 @@
 window.rootPath = (function (src) {
     src = document.scripts[document.scripts.length - 1].src;
     let _path = src.substring(0, src.lastIndexOf("/") + 1)
-    if (!_path) _path = '/static/js/admin/'
+    if (!_path) _path = '/static/template_001/js/admin/'
     return _path;
 })();
 
