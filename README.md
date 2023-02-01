@@ -1,12 +1,14 @@
 <h1 align="center">
-<a href="https://git.io/typing-svg"><img src="https://readme-typing-svg.herokuapp.com?font=Lexend+Deca&weight=900&size=24&duration=1500&pause=3000&color=C09380DF&background=65FFD900&center=true&vCenter=true&multiline=true&width=435&height=80&lines=wolfcode-blog;%E5%9F%BA%E4%BA%8E+webman+%E5%BC%80%E6%BA%90%E5%8D%9A%E5%AE%A2%E7%A8%8B%E5%BA%8F" alt="Typing SVG" /></a>
+    <a href="https://www.wolfcode.net/info/239/" target="_blank">
+         <code>wolfcode-blog</code> 基于 <code>webman</code> 开源博客程序
+    </a>
 </h1>
 
 [![GitHub](https://img.shields.io/badge/webman--blog-%40wolfcode-red?style=flat-square)](https://www.wolfcode.net)
 [![GitHub](https://img.shields.io/github/last-commit/wolf-leo/webman-blog.svg?style=flat-square)](https://github.com/wolf-leo/webman-blog/commits/main)
 [![GitHub](https://img.shields.io/github/license/wolf-leo/webman-blog?style=flat-square)](https://github.com/wolf-leo/webman-blog)
 
-### 程序简介
+## 程序简介
 
 - 🔧 依赖 `webman` 搭建【 需要 php>=7.4，建议 `php8.1` | MySQL>=5.7，建议 `MySQL8.0` 】
 - 📄 `webman` 官方文档地址：[https://www.workerman.net/doc/webman/](https://www.workerman.net/doc/webman/)
@@ -14,20 +16,20 @@
 - ⭐ 程序默认静默安装数据库，默认数据库名 `my_blog_2022`
 - 🤗  __默认启用 `template_002` 模板，可在 `.env` 文件中配置 `DEFAULT_TEMPLATE` 【目前可选 `template_001` `template_002` 】__
 
-### 配置说明
+## 配置说明
 
 - 安装前请先配置根目录下的 `.env` 文件相关信息
     - 主要修改 `DB_USERNAME` （数据库用户） 和 `DB_PASSWORD` （数据库密码） 两个参数值
     - 程序默认数据库名 `my_blog_2022` 如果不喜欢，可修改 `DB_DATABASE` 参数值
     - 程序默认端口 `8787`，如果不喜欢，可修改 `APP_PORT` 参数值
 
-### 样式参考
+## 样式参考
 
 <center>
 <img alt="样式参考" height="860" src="./public/static/template_002/images/wolfcode.png" width="500"/>
 </center>
 
-### 如何运行
+## 如何运行
 
 - 将代码 `下载` 或者 `git clone` 到本地，放入到预设路径（例如 `/www/wwwroot/yourpath`下）
     - 在 `/www/wwwroot/yourpath` 下运行 `php start.php start -d`
@@ -55,6 +57,7 @@
 
 - 启动后访问 `http://127.0.0.1:8787` 即可，其中端口号跟 `APP_PORT` 参数值相同
 - 如需外网访问，搭配 `Nginx` 进行反向代理即可
+- **切换默认模板后没有效果，可以用 `php start.php start -d` 重启项目**
 
 ```
 server {
@@ -79,13 +82,13 @@ server {
 
 - 配置后访问 `http://你的域名/` 即可
 - 后台地址，在主访问域名后面+ `/admin` 即可，例如 `http://你的域名/admin` ，后台账号 `admin` 密码 `123456`
-- <font color="red">特别提醒
-    - 尽量不要在 `Windows` 系统下运行该程序，建议使用 `Linux` 环境运行
-    - 程序底层已做好 `php8+` 兼容，请谨慎使用全局的 `composer update`
-    - 不做向下版本兼容，如需要其他版本，请自行兼容开发
-    - 如果出现 PHP Fatal error:  Uncaught Error: Call to undefined function pcntl_signal()，请到 `php.ini` 配置文件中删除对应禁用函数即可，或者宝塔用户可在 php版本管理的 `禁用函数` 中自行删除 </font>
+- ### 特别提醒
+    - **尽量不要在 `Windows` 系统下运行该程序，建议使用 `Linux` 环境运行**
+    - **程序底层已做好 `php8+` 兼容，请谨慎使用全局的 `composer update`**
+    - **不做向下版本兼容，如需要其他版本，请自行兼容开发**
+    - **如果出现 PHP Fatal error:  Uncaught Error: Call to undefined function pcntl_signal()，请到 `php.ini` 配置文件中删除对应禁用函数即可，或者宝塔用户可在 php版本管理的 `禁用函数` 中自行删除**
 
-## 第三方引用
+### 第三方引用
 
 - [webman](https://www.workerman.net/doc/webman/)
 - [think](https://github.com/top-think) (orm、cache、template)
