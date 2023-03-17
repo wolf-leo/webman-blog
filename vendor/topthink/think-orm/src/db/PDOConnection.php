@@ -1213,7 +1213,9 @@ abstract class PDOConnection extends Connection
             $name      = $cacheItem->getKey();
 
             if ($this->cache->has($name)) {
-                return $this->cache->get($name) ?: [];
+                // 兼容 PHP 8.0 + ，建议放弃 think-cache 这个库 ~~~
+                $result = $this->cache->get($name) ?: [];
+                if (!empty($result)) return $result;
             }
         }
 
