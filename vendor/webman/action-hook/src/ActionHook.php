@@ -11,6 +11,9 @@ class ActionHook implements MiddlewareInterface
 {
     public function process(Request $request, callable $next) : Response
     {
+        if(!config('app.controller_reuse', true)){
+            return $next($request);
+        }
         if ($request->controller) {
             // 禁止直接访问beforeAction afterAction
             if ($request->action === 'beforeAction' || $request->action === 'afterAction') {

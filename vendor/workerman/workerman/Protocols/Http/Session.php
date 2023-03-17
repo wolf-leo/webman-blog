@@ -37,6 +37,20 @@ class Session
     protected static $_handlerConfig = null;
 
     /**
+     * Session name.
+     *
+     * @var string
+     */
+    public static $name = 'PHPSID';
+
+    /**
+     * Auto update timestamp.
+     *
+     * @var bool
+     */
+    public static $autoUpdateTimestamp = false;
+
+    /**
      * Session lifetime.
      *
      * @var int
@@ -290,6 +304,8 @@ class Session
             } else {
                 static::$_handler->write($this->_sessionId, \serialize($this->_data));
             }
+        } elseif (static::$autoUpdateTimestamp) {
+            static::refresh();
         }
         $this->_needSave = false;
     }
@@ -311,7 +327,7 @@ class Session
      */
     public static function init()
     {
-        if ($gc_probability = (int)\ini_get('session.gc_probability') && $gc_divisor = (int)\ini_get('session.gc_divisor')) {
+        if (($gc_probability = (int)\ini_get('session.gc_probability')) && ($gc_divisor = (int)\ini_get('session.gc_divisor'))) {
             static::$gcProbability = [$gc_probability, $gc_divisor];
         }
 
@@ -377,15 +393,12 @@ class Session
     }
 
     /**
-     * Try GC sessions.
+     * GC sessions.
      *
      * @return void
      */
-    public function tryGcSessions()
+    public function gc()
     {
-        if (\rand(1, static::$gcProbability[1]) > static::$gcProbability[0]) {
-            return;
-        }
         static::$_handler->gc(static::$lifetime);
     }
 
@@ -397,7 +410,9 @@ class Session
     public function __destruct()
     {
         $this->save();
-        $this->tryGcSessions();
+        if (\random_int(1, static::$gcProbability[1]) <= static::$gcProbability[0]) {
+            $this->gc();
+        }
     }
 
     /**

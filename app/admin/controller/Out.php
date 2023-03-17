@@ -10,11 +10,11 @@
 namespace app\admin\controller;
 
 use app\common\controller\AdminBase;
-use Gregwar\Captcha\CaptchaBuilder;
-use Gregwar\Captcha\PhraseBuilder;
+use Webman\Captcha\CaptchaBuilder;
 use support\Request;
 use support\Response;
 use think\facade\Cache;
+use Webman\Captcha\PhraseBuilder;
 
 class Out extends AdminBase
 {

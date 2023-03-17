@@ -8,7 +8,7 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-declare (strict_types=1);
+declare (strict_types = 1);
 
 namespace think;
 
@@ -17,6 +17,7 @@ use Psr\Cache\CacheItemPoolInterface;
 use think\cache\Driver;
 use think\Container;
 use think\exception\InvalidArgumentException;
+use think\cache\CacheItem;
 
 /**
  * 缓存管理类
@@ -51,19 +52,20 @@ class CacheManager implements CacheItemPoolInterface
     /**
      * 初始化
      * @access public
-     * @param array $config 配置参数
-     * @return void
+     * @param  array $config 配置参数
+     * @return $this
      */
     public function init(array $config = [])
     {
         $this->config = $config;
+        return $this;
     }
 
     /**
      * 连接或者切换缓存
      * @access public
-     * @param string $name 连接配置名
-     * @param bool $force 强制重新连接
+     * @param  string $name  连接配置名
+     * @param  bool   $force 强制重新连接
      * @return Driver
      */
     public function store(string $name = '', bool $force = false): Driver
@@ -71,6 +73,7 @@ class CacheManager implements CacheItemPoolInterface
         if ('' == $name) {
             $name = $this->config['default'] ?? 'file';
         }
+
         if ($force || !isset($this->instance[$name])) {
             if (!isset($this->config['stores'][$name])) {
                 throw new InvalidArgumentException('Undefined cache config:' . $name);
@@ -87,8 +90,8 @@ class CacheManager implements CacheItemPoolInterface
     /**
      * 连接缓存
      * @access public
-     * @param array $options 连接参数
-     * @param string $name 连接配置名
+     * @param  array  $options 连接参数
+     * @param  string $name  连接配置名
      * @return Driver
      */
     public function connect(array $options, string $name = ''): Driver
@@ -111,7 +114,7 @@ class CacheManager implements CacheItemPoolInterface
     /**
      * 设置配置
      * @access public
-     * @param array $config 配置参数
+     * @param  array $config 配置参数
      * @return void
      */
     public function config(array $config): void
@@ -122,7 +125,7 @@ class CacheManager implements CacheItemPoolInterface
     /**
      * 返回「键」对应的一个缓存项。
      * @access public
-     * @param string $key 缓存标识
+     * @param  string $key 缓存标识
      * @return CacheItemInterface
      * @throws InvalidArgumentException
      */
@@ -146,7 +149,7 @@ class CacheManager implements CacheItemPoolInterface
     /**
      * 返回一个可供遍历的缓存项集合。
      * @access public
-     * @param array $keys
+     * @param  array $keys
      * @return array|\Traversable
      * @throws InvalidArgumentException
      */
@@ -163,7 +166,7 @@ class CacheManager implements CacheItemPoolInterface
     /**
      * 检查缓存系统中是否有「键」对应的缓存项。
      * @access public
-     * @param string $key
+     * @param  string $key
      * @return bool
      * @throws InvalidArgumentException
      */
@@ -185,7 +188,7 @@ class CacheManager implements CacheItemPoolInterface
     /**
      * 从缓冲池里移除某个缓存项
      * @access public
-     * @param string $key
+     * @param  string $key
      * @return bool
      * @throws InvalidArgumentException
      */
@@ -197,7 +200,7 @@ class CacheManager implements CacheItemPoolInterface
     /**
      * 从缓冲池里移除多个缓存项
      * @access public
-     * @param array $keys
+     * @param  array $keys
      * @return bool
      * @throws InvalidArgumentException
      */
@@ -213,7 +216,7 @@ class CacheManager implements CacheItemPoolInterface
     /**
      * 立刻为「CacheItemInterface」对象做数据持久化。
      * @access public
-     * @param CacheItemInterface $item
+     * @param  CacheItemInterface $item
      * @return bool
      */
     public function save(CacheItemInterface $item): bool
@@ -228,7 +231,7 @@ class CacheManager implements CacheItemPoolInterface
     /**
      * 稍后为「CacheItemInterface」对象做数据持久化。
      * @access public
-     * @param CacheItemInterface $item
+     * @param  CacheItemInterface $item
      * @return bool
      */
     public function saveDeferred(CacheItemInterface $item): bool

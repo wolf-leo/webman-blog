@@ -117,6 +117,11 @@ class Timer
             return self::$_event->add($time_interval,
                 $persistent ? EventInterface::EV_TIMER : EventInterface::EV_TIMER_ONCE, $func, $args);
         }
+        
+        // If not workerman runtime just return.
+        if (!Worker::getAllWorkers()) {
+            return;
+        }
 
         if (!\is_callable($func)) {
             Worker::safeEcho(new Exception("not callable"));
@@ -205,7 +210,9 @@ class Timer
     public static function delAll()
     {
         self::$_tasks = self::$_status = array();
-        \pcntl_alarm(0);
+        if (\function_exists('pcntl_alarm')) {
+            \pcntl_alarm(0);
+        }
         if (self::$_event) {
             self::$_event->clearAllTimer();
         }

@@ -49,6 +49,7 @@ class ComposerStaticInit403af8cd99d7ed8c6ce0c15ef03b20d0
             'Webman\\ThinkOrm\\' => 16,
             'Webman\\ThinkCache\\' => 18,
             'Webman\\Console\\' => 15,
+            'Webman\\Captcha\\' => 15,
             'Webman\\AutoRoute\\' => 17,
             'Webman\\ActionHook\\' => 18,
             'Webman\\' => 7,
@@ -65,7 +66,6 @@ class ComposerStaticInit403af8cd99d7ed8c6ce0c15ef03b20d0
             'Symfony\\Contracts\\Service\\' => 26,
             'Symfony\\Component\\Translation\\' => 30,
             'Symfony\\Component\\String\\' => 25,
-            'Symfony\\Component\\Finder\\' => 25,
             'Symfony\\Component\\Console\\' => 26,
             'Support\\View\\' => 13,
             'Support\\Exception\\' => 18,
@@ -115,7 +115,6 @@ class ComposerStaticInit403af8cd99d7ed8c6ce0c15ef03b20d0
             'GuzzleHttp\\Command\\Guzzle\\' => 26,
             'GuzzleHttp\\Command\\' => 19,
             'GuzzleHttp\\' => 11,
-            'Gregwar\\' => 8,
             'GrahamCampbell\\ResultType\\' => 26,
         ),
         'F' => 
@@ -170,6 +169,10 @@ class ComposerStaticInit403af8cd99d7ed8c6ce0c15ef03b20d0
         array (
             0 => __DIR__ . '/..' . '/webman/console/src',
         ),
+        'Webman\\Captcha\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/webman/captcha/src',
+        ),
         'Webman\\AutoRoute\\' => 
         array (
             0 => __DIR__ . '/..' . '/webman/auto-route/src',
@@ -221,10 +224,6 @@ class ComposerStaticInit403af8cd99d7ed8c6ce0c15ef03b20d0
         'Symfony\\Component\\String\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/string',
-        ),
-        'Symfony\\Component\\Finder\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/symfony/finder',
         ),
         'Symfony\\Component\\Console\\' => 
         array (
@@ -340,10 +339,6 @@ class ComposerStaticInit403af8cd99d7ed8c6ce0c15ef03b20d0
         'GuzzleHttp\\' => 
         array (
             0 => __DIR__ . '/..' . '/guzzlehttp/guzzle/src',
-        ),
-        'Gregwar\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/gregwar/captcha/src/Gregwar',
         ),
         'GrahamCampbell\\ResultType\\' => 
         array (
