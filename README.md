@@ -10,6 +10,7 @@
 
 ## 程序简介
 
+- 🚀 **<big><mark>全程自动安装，不需要手动创建数据库、不需要新建任何文件<mark></big>**
 - 🔧 依赖 `webman` 搭建【 需要 php>=7.4，建议 `php8.1` `php8.2` | MySQL>=5.7，建议 `MySQL8.0` 】
 - 📄 `webman` 官方文档地址：[https://www.workerman.net/doc/webman/](https://www.workerman.net/doc/webman/)
 - 💙 程序默认关闭 `app_debug` ，如需调试，请自行前往根目录中的 `.env` 文件配置
