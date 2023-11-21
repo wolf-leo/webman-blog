@@ -5,3 +5,4 @@
 /tests/.phpunit.result.cache
 /config/install/lock/install.lock
 composer.lock
+.env

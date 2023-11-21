@@ -42,6 +42,6 @@ class BlogController
 
     protected function jump404(): Response
     {
-        return view('public/404');
+        return view('404');
     }
 }
