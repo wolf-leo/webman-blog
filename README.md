@@ -4,6 +4,10 @@
 [![GitHub](https://img.shields.io/github/last-commit/wolf-leo/webman-blog.svg?style=flat-square)](https://github.com/wolf-leo/webman-blog/commits/main)
 [![GitHub](https://img.shields.io/github/license/wolf-leo/webman-blog?style=flat-square)](https://github.com/wolf-leo/webman-blog)
 
+## 演示站
+
+- 请访问 [http://blog.easyadmin8.top](http://blog.easyadmin8.top)
+
 ## 程序简介
 
 - 🚀 **<big><mark>全程自动安装，不需要手动创建数据库、不需要新建任何文件<mark></big>**
