@@ -19,7 +19,10 @@ use Illuminate\Database\Capsule\Manager as Capsule;
 use Illuminate\Database\MySqlConnection;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Pagination\Paginator;
-use Jenssegers\Mongodb\Connection as MongodbConnection;
+use Illuminate\Pagination\CursorPaginator;
+use Illuminate\Pagination\Cursor;
+use Jenssegers\Mongodb\Connection as JenssegersMongodbConnection;
+use MongoDB\Laravel\Connection as LaravelMongodbConnection;
 use support\Container;
 use Throwable;
 use Webman\Bootstrap;
@@ -55,7 +58,7 @@ class LaravelDb implements Bootstrap
 
         $capsule->getDatabaseManager()->extend('mongodb', function ($config, $name) {
             $config['name'] = $name;
-            return new MongodbConnection($config);
+            return class_exists(LaravelMongodbConnection::class) ? new LaravelMongodbConnection($config) : new JenssegersMongodbConnection($config);
         });
 
         $default = $config['default'] ?? false;
@@ -110,6 +113,11 @@ class LaravelDb implements Bootstrap
                 $page = (int)($request->input($pageName, 1));
                 return $page > 0 ? $page : 1;
             });
+            if (class_exists(CursorPaginator::class)) {
+                CursorPaginator::currentCursorResolver(function ($cursorName = 'cursor') {
+                    return Cursor::fromEncoded(request()->input($cursorName));
+                });
+            }
         }
     }
 }

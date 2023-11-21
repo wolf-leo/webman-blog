@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" href="{:sysConfig('site','site_ico')}">
-    <title>{:sysConfig('site','site_name','My Blog')}</title>
-    <meta name="keywords" content="{:sysConfig('site','site_name','My Blog')}"/>
-    <meta name="description" content="{:sysConfig('site','site_name','My Blog')}"/>
+    <link rel="icon" href="{$blogConfig.ico|default='/favicon.ico'}">
+    <title>{$blogConfig.site_name|default='我的博客'}</title>
+    <meta name="keywords" content="{$blogConfig.keywords|default='我的博客'}"/>
+    <meta name="description" content="{$blogConfig.description|default='我的博客'}"/>
     <link rel="stylesheet" href="/static/template_001/css/page-builder.css" type="text/css" media="all">
     <link rel="stylesheet" href="/static/template_001/css/style-core.css" type="text/css" media="all">
     <link rel="stylesheet" href="/static/template_001/css/akea-style-custom.css" type="text/css" media="all">
@@ -23,7 +23,7 @@
             <div class="akea-logo  akea-item-pdlr">
                 <div class="akea-logo-inner">
                     <a class href="/">
-                        <img src="{:sysConfig('logo','site_blog_logo','/static/template_001/images/logo.jpg')}" width="50"/>
+                        <img src="{$blogConfig.logo|default='/static/template_001/images/logo.jpg'}" width="50"/>
                     </a>
                 </div>
             </div>
@@ -90,12 +90,12 @@
                                 <li class="akea-center-nav-menu-item">
                                     <div class="akea-above-logo">
                                         <a href="/">
-                                            <img src="{:sysConfig('logo','site_blog_logo','/static/template_001/images/logo.jpg')}">
+                                            <img src="{$blogConfig.logo|default='/static/template_001/images/logo.jpg'}">
                                         </a>
                                     </div>
                                     <div class="akea-logo  akea-item-pdlr">
                                         <div class="akea-logo-inner">
-                                            <a class href="/">{:sysConfig('site','site_name','My Blog')}</a>
+                                            <a class href="/">{$blogConfig.site_name|default='我的博客'}</a>
                                         </div>
                                     </div>
                                 </li>
@@ -116,8 +116,8 @@
                 <div class="akea-copyright-container akea-container clearfix">
                     <div class="akea-copyright-left akea-item-pdlr">
                         Copyright © {:date('Y')}&nbsp;&nbsp;&nbsp;
-                        <a href="/">{:sysConfig('site','site_name','My Blog')}</a>&nbsp;&nbsp;&nbsp;
-                        <a href="https://beian.miit.gov.cn" target="_blank" rel="nofollow">{:sysConfig('site','site_icp')}</a>
+                        <a href="/">{$blogConfig.site_name|default='我的博客'}</a>&nbsp;&nbsp;&nbsp;
+                        <a href="https://beian.miit.gov.cn" target="_blank" rel="nofollow">{$blogConfig.site_icp|default=''}</a>
                     </div>
                     <div class="akea-copyright-right akea-item-pdlr">
                         <a href="/">首页</a>&nbsp;&nbsp;&nbsp;
@@ -133,6 +133,6 @@
 </div>
 <script type="text/javascript" src="/static/template_001/js/lazyload.min.js"></script>
 <script type="text/javascript" src="/static/template_001/js/web.js"></script>
-{:sysConfig('site','site_tongji')}
+{$blogConfig.site_tongji|default=''}
 </body>
 </html>

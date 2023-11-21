@@ -1,0 +1,17 @@
+{layout name="layout/layout" /}
+<div class="layuimini-container">
+    <div class="layuimini-main">
+        <table id="currentTable" class="layui-table layui-hide"
+               data-auth-add="{:auths('blog/article/add')}"
+               data-auth-edit="{:auths('blog/article/edit')}"
+               data-auth-delete="{:auths('blog/article/delete')}"
+               data-auth-stock="{:auths('blog/article/stock')}"
+               lay-filter="currentTable">
+        </table>
+    </div>
+</div>
+
+<script>
+    let statusSelect = JSON.parse('{$notes.status|json_encode=256|raw}')
+    let categorySelect = JSON.parse('{$notes.category|json_encode=256|raw}')
+</script>

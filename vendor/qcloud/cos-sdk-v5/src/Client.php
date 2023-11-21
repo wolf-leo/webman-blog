@@ -51,7 +51,7 @@ use GuzzleHttp\Psr7;
  * @method object PutObject(array $args) 上传对象
  * @method object AppendObject(array $args) 追加对象
  * @method object PutObjectAcl(array $args) 设置 COS 对象的访问权限信息（Access Control List, ACL）
- * @method object PutBucketAcl(array $args) 设置存储桶（Bucket）的访问权限（Access Control List, ACL)
+ * @method object PutBucketAcl(array $args) 设置存储桶（Bucket）的访问权限 (Access Control List, ACL)
  * @method object PutBucketCors(array $args) 设置存储桶（Bucket）的跨域配置信息
  * @method object PutBucketDomain(array $args) 设置存储桶（Bucket）的Domain信息
  * @method object PutBucketLifecycle(array $args) 设置存储桶（Bucket）生命周期配置
@@ -207,43 +207,89 @@ use GuzzleHttp\Psr7;
  * @method object GetFileUncompressResult(array $args) 查询文件解压结果
  * @method object CreateFileCompressJobs(array $args) 提交多文件打包压缩任务
  * @method object GetFileCompressResult(array $args) 查询多文件打包压缩结果
+ * @method object CreateM3U8PlayListJobs(array $args) 获取指定hls/m3u8文件指定时间区间内的ts资源
+ * @method object GetPicQueueList(array $args) 搜索图片处理队列
+ * @method object UpdatePicQueue(array $args) 更新图片处理队列
+ * @method object GetPicBucketList(array $args) 查询图片处理服务状态
+ * @method object GetAiBucketList(array $args) 查询 AI 内容识别服务状态
+ * @method object OpenAiService(array $args) 开通 AI 内容识别
+ * @method object CloseAiService(array $args) 关闭AI内容识别服务
+ * @method object GetAiQueueList(array $args) 搜索 AI 内容识别队列
+ * @method object UpdateAiQueue(array $args) 更新 AI 内容识别队列
+ * @method object CreateMediaTranscodeProTemplate(array $args) 创建音视频转码 pro 模板
+ * @method object UpdateMediaTranscodeProTemplate(array $args) 更新音视频转码 pro 模板
+ * @method object CreateVoiceTtsTemplate(array $args) 创建语音合成模板
+ * @method object UpdateVoiceTtsTemplate(array $args) 更新语音合成模板
+ * @method object CreateMediaSmartCoverTemplate(array $args) 创建智能封面模板
+ * @method object UpdateMediaSmartCoverTemplate(array $args) 更新智能封面模板
+ * @method object CreateVoiceSpeechRecognitionTemplate(array $args) 创建语音识别模板
+ * @method object UpdateVoiceSpeechRecognitionTemplate(array $args) 更新语音识别模板
+ * @method object CreateVoiceTtsJobs(array $args) 提交一个语音合成任务
+ * @method object CreateAiTranslationJobs(array $args) 提交一个翻译任务
+ * @method object CreateVoiceSpeechRecognitionJobs(array $args) 提交一个语音识别任务
+ * @method object CreateAiWordsGeneralizeJobs(array $args) 提交一个分词任务
+ * @method object CreateMediaVideoEnhanceJobs(array $args) 提交画质增强任务
+ * @method object CreateMediaVideoEnhanceTemplate(array $args) 创建画质增强模板
+ * @method object UpdateMediaVideoEnhanceTemplate(array $args) 更新画质增强模板
+ * @method object OpenImageSlim(array $args) 开通图片瘦身
+ * @method object CloseImageSlim(array $args) 关闭图片瘦身
+ * @method object GetImageSlim(array $args) 查询图片瘦身状态
+ * @method object AutoTranslationBlockProcess(array $args) 实时文字翻译
+ * @method object RecognizeLogoProcess(array $args) Logo 识别
+ * @method object DetectLabelProcess(array $args) 图片标签
+ * @method object AIGameRecProcess(array $args) 游戏场景识别
+ * @method object AIBodyRecognitionProcess(array $args) 人体识别
+ * @method object DetectPetProcess(array $args) 宠物识别
+ * @method object AILicenseRecProcess(array $args) 卡证识别
+ * @method object CreateMediaTargetRecTemplate(array $args) 创建视频目标检测模板
+ * @method object UpdateMediaTargetRecTemplate(array $args) 更新视频目标检测模板
+ * @method object CreateMediaTargetRecJobs(array $args) 提交视频目标检测任务
+ * @method object CreateMediaSegmentVideoBodyJobs(array $args) 提交视频人像抠图任务
  * @see \Qcloud\Cos\Service::getService()
  */
 class Client extends GuzzleClient {
-    const VERSION = '2.6.1';
+    const VERSION = '2.6.8';
 
     public $httpClient;
-    
+
     private $api;
     private $desc;
     private $action;
     private $operation;
-    private $cosConfig;
     private $signature;
     private $rawCosConfig;
 
+    private $cosConfig = [
+        'scheme' => 'http',
+        'region' => null,
+        'credentials' => [
+            'appId' => null,
+            'secretId' => '',
+            'secretKey' => '',
+            'anonymous' => false,
+            'token' => null,
+        ],
+        'timeout' => 3600,
+        'connect_timeout' => 3600,
+        'ip' => null,
+        'port' => null,
+        'endpoint' => null,
+        'domain' => null,
+        'proxy' => null,
+        'retry' => 1,
+        'userAgent' => 'cos-php-sdk-v5.' . Client::VERSION,
+        'pathStyle' => false,
+        'signHost' => true,
+        'allow_redirects' => false,
+        'allow_accelerate' => false,
+        'timezone' => 'PRC',
+        'locationWithScheme' => false,
+    ];
+
     public function __construct(array $cosConfig) {
         $this->rawCosConfig = $cosConfig;
-        $this->cosConfig['schema'] = isset($cosConfig['schema']) ? $cosConfig['schema'] : 'http';
-        $this->cosConfig['region'] = isset($cosConfig['region']) ? region_map($cosConfig['region']) : null;
-        $this->cosConfig['appId'] = isset($cosConfig['credentials']['appId']) ? $cosConfig['credentials']['appId'] : null;
-        $this->cosConfig['secretId'] = isset($cosConfig['credentials']['secretId']) ? trim($cosConfig['credentials']['secretId']) : '';
-        $this->cosConfig['secretKey'] = isset($cosConfig['credentials']['secretKey']) ? trim($cosConfig['credentials']['secretKey']) : '';
-        $this->cosConfig['anonymous'] = isset($cosConfig['credentials']['anonymous']) ? $cosConfig['credentials']['anonymous'] : false;
-        $this->cosConfig['token'] = isset($cosConfig['credentials']['token']) ? trim($cosConfig['credentials']['token']) : null;
-        $this->cosConfig['timeout'] = isset($cosConfig['timeout']) ? $cosConfig['timeout'] : 3600;
-        $this->cosConfig['connect_timeout'] = isset($cosConfig['connect_timeout']) ? $cosConfig['connect_timeout'] : 3600;
-        $this->cosConfig['ip'] = isset($cosConfig['ip']) ? $cosConfig['ip'] : null;
-        $this->cosConfig['port'] = isset($cosConfig['port']) ? $cosConfig['port'] : null;
-        $this->cosConfig['endpoint'] = isset($cosConfig['endpoint']) ? $cosConfig['endpoint'] : null;
-        $this->cosConfig['domain'] = isset($cosConfig['domain']) ? $cosConfig['domain'] : null;
-        $this->cosConfig['proxy'] = isset($cosConfig['proxy']) ? $cosConfig['proxy'] : null;
-        $this->cosConfig['retry'] = isset($cosConfig['retry']) ? $cosConfig['retry'] : 1;
-        $this->cosConfig['userAgent'] = isset($cosConfig['userAgent']) ? $cosConfig['userAgent'] : 'cos-php-sdk-v5.'. Client::VERSION;
-        $this->cosConfig['pathStyle'] = isset($cosConfig['pathStyle']) ? $cosConfig['pathStyle'] : false;
-        $this->cosConfig['signHost'] = isset($cosConfig['signHost']) ? $cosConfig['signHost'] : true;
-        $this->cosConfig['allow_redirects'] = isset($cosConfig['allow_redirects']) ? $cosConfig['allow_redirects'] : false;
-        $this->cosConfig['allow_accelerate'] = isset($cosConfig['allow_accelerate']) ? $cosConfig['allow_accelerate'] : false;
+
+        $this->cosConfig = processCosConfig(array_replace_recursive($this->cosConfig, $cosConfig));
 
         // check config
         $this->inputCheck();
@@ -259,6 +305,7 @@ class Client extends GuzzleClient {
         }
         if ($this->cosConfig['token'] != null) {
             $handler->push(Middleware::mapRequest(function (RequestInterface $request) {
+                $request = $request->withHeader('x-ci-security-token', $this->cosConfig['token']);
                 return $request->withHeader('x-cos-security-token', $this->cosConfig['token']);
             }));
         }
@@ -266,7 +313,7 @@ class Client extends GuzzleClient {
         $this->signature = new Signature($this->cosConfig['secretId'], $this->cosConfig['secretKey'], $this->cosConfig, $this->cosConfig['token']);
         $area = $this->cosConfig['allow_accelerate'] ? 'accelerate' : $this->cosConfig['region'];
         $this->httpClient = new HttpClient([
-            'base_uri' => "{$this->cosConfig['schema']}://cos.{$area}.myqcloud.com/",
+            'base_uri' => "{$this->cosConfig['scheme']}://cos.{$area}.myqcloud.com/",
             'timeout' => $this->cosConfig['timeout'],
             'handler' => $handler,
             'proxy' => $this->cosConfig['proxy'],
@@ -388,8 +435,22 @@ class Client extends GuzzleClient {
         return $this->api;
     }
 
-    private function getCosConfig() {
-        return $this->cosConfig;
+    /**
+     * Get the config of the cos client.
+     *
+     * @param array|string $option
+     * @return mixed
+     */
+    public function getCosConfig($option = null)
+    {
+        return $option === null
+            ? $this->cosConfig
+            : (isset($this->cosConfig[$option]) ? $this->cosConfig[$option] : array());
+    }
+
+    public function setCosConfig($option, $value)
+    {
+        $this->cosConfig[$option] = $value;
     }
 
     private function createPresignedUrl(RequestInterface $request, $expires) {
@@ -402,7 +463,6 @@ class Client extends GuzzleClient {
         return $this->createPresignedUrl($request, $expires);
     }
 
-
     public function getObjectUrl($bucket, $key, $expires = "+30 minutes", array $args = array()) {
         $command = $this->getCommand('GetObject', $args + array('Bucket' => $bucket, 'Key' => $key));
         $request = $this->commandToRequestTransformer($command);
@@ -412,7 +472,7 @@ class Client extends GuzzleClient {
     public function getObjectUrlWithoutSign($bucket, $key, array $args = array()) {
         $command = $this->getCommand('GetObject', $args + array('Bucket' => $bucket, 'Key' => $key));
         $request = $this->commandToRequestTransformer($command);
-        return $request->getUri()-> __toString();
+        return $request->getUri()->__toString();
     }
 
     public function upload($bucket, $key, $body, $options = array()) {
@@ -439,7 +499,6 @@ class Client extends GuzzleClient {
 
     public function download($bucket, $key, $saveAs, $options = array()) {
         $options['PartSize'] = isset($options['PartSize']) ? $options['PartSize'] : RangeDownload::DEFAULT_PART_SIZE;
-        $contentLength = 0;
         $versionId = isset($options['VersionId']) ? $options['VersionId'] : '';
 
         $rt = $this->headObject(array(
@@ -561,7 +620,6 @@ class Client extends GuzzleClient {
         }
         return $final_key;
     }
-
 
     public static function handleSignature($secretId, $secretKey, $options) {
             return function (callable $handler) use ($secretId, $secretKey, $options) {

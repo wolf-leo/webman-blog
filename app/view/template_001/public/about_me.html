@@ -4,7 +4,7 @@
     </h3>
     <span class="clear"></span>
     <div class="textwidget">
-        <p>{:sysConfig('about','about_me_desc','这个人很赖，什么都没留下')}</p>
+        <p>{$blogConfig.about_me|raw|default='这个人很赖，什么都没留下'}</p>
         <a class="gdlr-core-button gdlr-core-button-shortcode  gdlr-core-button-transparent gdlr-core-button-with-border" href="/about/me/" target="_blank" id="a_2207_10">
             <span class="gdlr-core-content">了解更多</span>
         </a>

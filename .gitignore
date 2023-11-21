@@ -1,6 +1,7 @@
 /.idea
 /.vscode
+*.log
+/tests/tmp
 /tests/.phpunit.result.cache
-/public/upload
-/vendor/workerman/workerman.log
-/extend/install.lock
+/config/install/lock/install.lock
+composer.lock

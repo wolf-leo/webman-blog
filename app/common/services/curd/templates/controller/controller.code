@@ -1,0 +1,21 @@
+<?php
+
+namespace {{controllerNamespace}};
+
+use app\common\controller\AdminController;
+use app\common\services\annotation\ControllerAnnotation;
+use app\common\services\annotation\NodeAnnotation;
+
+/**
+ * @ControllerAnnotation(title="{{controllerAnnotation}}")
+ */
+class {{controllerName}}Controller extends AdminController
+{
+
+    public function initialize()
+    {
+        parent::initialize();
+        $this->model = new {{modelFilename}}();
+    }
+
+}

@@ -51,17 +51,18 @@ class Blade implements View
      * @param string $template
      * @param array $vars
      * @param string|null $app
+     * @param string|null $plugin
      * @return string
      */
-    public static function render(string $template, array $vars, string $app = null): string
+    public static function render(string $template, array $vars, string $app = null, string $plugin = null): string
     {
         static $views = [];
         $request = request();
-        $plugin = $request->plugin ?? '';
+        $plugin = $plugin === null ? ($request->plugin ?? '') : $plugin;
         $app = $app === null ? $request->app : $app;
         $configPrefix = $plugin ? "plugin.$plugin." : '';
         $baseViewPath = $plugin ? base_path() . "/plugin/$plugin/app" : app_path();
-        $key = "$plugin-$request->app";
+        $key = "$plugin-$app";
         if (!isset($views[$key])) {
             $viewPath = $app === '' ? "$baseViewPath/view" : "$baseViewPath/$app/view";
             $views[$key] = new BladeView($viewPath, runtime_path() . '/views');

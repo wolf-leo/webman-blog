@@ -3,10 +3,10 @@
 <head>
     <meta charset=utf-8>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" href="{:sysConfig('site','site_ico')}">
-    <title>{:sysConfig('site','site_name','My Blog')}</title>
-    <meta name="keywords" content="{:sysConfig('site','site_keywords','My Blog')}"/>
-    <meta name="description" content="{:sysConfig('site','site_description','My Blog')}"/>
+    <link rel="icon" href="{$blogConfig.ico|default='/favicon.ico'}">
+    <title>{$blogConfig.site_name|default='我的博客'}</title>
+    <meta name="keywords" content="{$blogConfig.keywords|default='我的博客'}"/>
+    <meta name="description" content="{$blogConfig.description|default='我的博客'}"/>
     <meta name="template" content="Memory"/>
     <link rel=stylesheet href="/static/template_002/css/web/alicdn_font.css">
     <link rel="stylesheet" href="/static/template_002/css/swiper-bundle.min.css">
@@ -17,8 +17,8 @@
     <div class="menu">
         <div class="logo">
             <a href="/">
-                <img class="logo-light" src="{:sysConfig('logo','site_blog_logo','/static/template_002/images/logo.jpg')}">
-                <img class="logo-dark d-none" src="{:sysConfig('logo','site_blog_logo','/static/template_002/images/logo.jpg')}">
+                <img class="logo-light" src="{$blogConfig.logo|default='/static/template_001/images/logo.jpg'}">
+                <img class="logo-dark d-none" src="{$blogConfig.logo|default='/static/template_001/images/logo.jpg'}">
             </a>
         </div>
         <div class="menu_list">
@@ -76,8 +76,8 @@
         <div class="copyright-container container clearfix">
             <div class="copyright-left item-pdlr">
                 Copyright © {:date('Y')}&nbsp;&nbsp;&nbsp;
-                <a href="/">{:sysConfig('site','site_name','My Blog')}</a>&nbsp;&nbsp;&nbsp;
-                <a href="https://beian.miit.gov.cn" target="_blank" rel="nofollow">{:sysConfig('site','site_icp')}</a>
+                <a href="/">{$blogConfig.site_name|default='我的博客'}</a>&nbsp;&nbsp;&nbsp;
+                <a href="https://beian.miit.gov.cn" target="_blank" rel="nofollow">{$blogConfig.site_icp|default=''}</a>
             </div>
             <div class="copyright-right item-pdlr">
                 <a href="/">首页</a>&nbsp;&nbsp;&nbsp;
@@ -96,6 +96,6 @@
 <script src="/static/template_002/js/swiper.min.js"></script>
 <script type="text/javascript" src="/static/template_002/js/jquery.lazyload.min.js"></script>
 <script type="text/javascript" src="/static/template_002/js/web.js"></script>
-{:sysConfig('site','site_tongji')}
+{$blogConfig.tongji|default=''}
 </body>
 </html>

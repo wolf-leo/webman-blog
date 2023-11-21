@@ -1,0 +1,69 @@
+{layout name="layout/layout" /}
+<div class="layuimini-container">
+    <form id="app-form" class="layui-form layuimini-form">
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">标题</label>
+            <div class="layui-input-block">
+                <input type="text" name="title" class="layui-input" lay-verify="required" placeholder="请输入标题" value="{$row.title|default=''}">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">链接</label>
+            <div class="layui-input-block">
+                <input type="text" name="link" class="layui-input" lay-verify="required" placeholder="请输入链接" value="{$row.link|default=''}">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label ">主图</label>
+            <div class="layui-input-block layuimini-upload">
+                <input name="img" class="layui-input layui-col-xs6" placeholder="请上传图片" value="{$row.img|default=''}">
+                <div class="layuimini-upload-btn">
+                    <span><a class="layui-btn" data-upload="img" data-upload-number="one" data-upload-exts="png|jpg|ico|jpeg" data-upload-icon="image"><i class="fa fa-upload"></i> 上传</a></span>
+                    <span><a class="layui-btn layui-btn-normal" id="select_img" data-upload-select="img" data-upload-number="one" data-upload-mimetype="image/*"><i class="fa fa-list"></i> 选择</a></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">简介</label>
+            <div class="layui-input-block">
+                <textarea class="layui-textarea" name="desc" placeholder="">{$row.desc|default=''}</textarea>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label required">跳转方式</label>
+            <div class="layui-input-block">
+                {volist name='notes.target' id='vo'}
+                <input type="radio" name="target" value="{$key}" title="{$vo}" {if $key==$row.target}checked{/if}>
+                {/volist}
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label required">状态</label>
+            <div class="layui-input-block">
+                {volist name='notes.status' id='vo'}
+                <input type="radio" name="status" value="{$key}" title="{$vo}" {if $key==$row.status}checked{/if}>
+                {/volist}
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">排序</label>
+            <div class="layui-input-block">
+                <input type="number" name="sort" class="layui-input" placeholder="请输入排序" value="{$row.sort|default=0}">
+            </div>
+        </div>
+
+        <div class="hr-line"></div>
+        <div class="layui-form-item text-center">
+            <button type="submit" class="layui-btn layui-btn-normal layui-btn-sm" lay-submit>确认</button>
+            <button type="reset" class="layui-btn layui-btn-primary layui-btn-sm">重置</button>
+        </div>
+
+    </form>
+</div>

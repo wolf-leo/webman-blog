@@ -103,12 +103,18 @@ class MakeModelCommand extends Command
             $inflector = InflectorFactory::create()->build();
             $table_plura = $inflector->pluralize($inflector->tableize($class));
             if (\support\Db::select("show tables like '{$prefix}{$table_plura}'")) {
+                $table_val = "'$table'";
                 $table = "{$prefix}{$table_plura}";
             } else if (\support\Db::select("show tables like '{$prefix}{$table}'")) {
                 $table_val = "'$table'";
                 $table = "{$prefix}{$table}";
             }
-            foreach (\support\Db::select("select COLUMN_NAME,DATA_TYPE,COLUMN_KEY,COLUMN_COMMENT from INFORMATION_SCHEMA.COLUMNS where table_name = '$table' and table_schema = '$database'") as $item) {
+            $tableComment = \support\Db::select('SELECT table_comment FROM information_schema.`TABLES` WHERE table_schema = ? AND table_name = ?', [$database, $table]);
+            if (!empty($tableComment)) {
+                $comments = $tableComment[0]->table_comment ?? $tableComment[0]->TABLE_COMMENT;
+                $properties .= " * {$table} {$comments}" . PHP_EOL;
+            }
+            foreach (\support\Db::select("select COLUMN_NAME,DATA_TYPE,COLUMN_KEY,COLUMN_COMMENT from INFORMATION_SCHEMA.COLUMNS where table_name = '$table' and table_schema = '$database' ORDER BY ordinal_position") as $item) {
                 if ($item->COLUMN_KEY === 'PRI') {
                     $pk = $item->COLUMN_NAME;
                     $item->COLUMN_COMMENT .= "(主键)";
@@ -185,7 +191,12 @@ EOF;
                 $table = "{$prefix}{$table}s";
                 $table_val = "'$table'";
             }
-            foreach (\think\facade\Db::query("select COLUMN_NAME,DATA_TYPE,COLUMN_KEY,COLUMN_COMMENT from INFORMATION_SCHEMA.COLUMNS where table_name = '$table' and table_schema = '$database'") as $item) {
+            $tableComment = \think\facade\Db::query('SELECT table_comment FROM information_schema.`TABLES` WHERE table_schema = ? AND table_name = ?', [$database, $table]);
+            if (!empty($tableComment)) {
+                $comments = $tableComment[0]['table_comment'] ?? $tableComment[0]['TABLE_COMMENT'];
+                $properties .= " * {$table} {$comments}" . PHP_EOL;
+            }
+            foreach (\think\facade\Db::query("select COLUMN_NAME,DATA_TYPE,COLUMN_KEY,COLUMN_COMMENT from INFORMATION_SCHEMA.COLUMNS where table_name = '$table' and table_schema = '$database' ORDER BY ordinal_position") as $item) {
                 if ($item['COLUMN_KEY'] === 'PRI') {
                     $pk = $item['COLUMN_NAME'];
                     $item['COLUMN_COMMENT'] .= "(主键)";

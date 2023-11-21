@@ -1,8 +1,4 @@
-<h1 align="center">
-    <a href="https://www.wolfcode.net/info/239/" target="_blank">
-         <code>webman-blog</code> 基于 <code>webman</code> 开源博客程序
-    </a>
-</h1>
+## `webman-blog` 基于 [EasyAdmin8-webman(thinkphp分支)](https://github.com/wolf-leo/EasyAdmin8-webman/tree/thinkphp/) 开源博客程序
 
 [![GitHub](https://img.shields.io/badge/webman--blog-%40wolfcode-red?style=flat-square)](https://www.wolfcode.net)
 [![GitHub](https://img.shields.io/github/last-commit/wolf-leo/webman-blog.svg?style=flat-square)](https://github.com/wolf-leo/webman-blog/commits/main)
@@ -11,10 +7,10 @@
 ## 程序简介
 
 - 🚀 **<big><mark>全程自动安装，不需要手动创建数据库、不需要新建任何文件<mark></big>**
-- 🔧 依赖 `webman` 搭建【 需要 php>=7.4，建议 `php8.1` `php8.2` | MySQL>=5.7，建议 `MySQL8.0` 】
+- 🔧 依赖 `webman` 搭建【 需要 php>=8.0，建议 `php8.1` `php8.2` | MySQL>=5.7，建议 `MySQL8.0` 】
 - 📄 `webman` 官方文档地址：[https://www.workerman.net/doc/webman/](https://www.workerman.net/doc/webman/)
 - 💙 程序默认关闭 `app_debug` ，如需调试，请自行前往根目录中的 `.env` 文件配置
-- ⭐ 程序默认静默安装数据库，默认数据库名 `my_blog_2022`
+- ⭐ 程序默认静默安装数据库，默认数据库名 `my_blog_ea8`
 - 🤗  __默认启用 `template_002` 模板，可在 `.env` 文件中配置 `DEFAULT_TEMPLATE` 【目前可选 `template_001` `template_002` 】__
 
 ## 配置说明
@@ -88,16 +84,6 @@ server {
     - **程序底层已做好 `php8+` 兼容，请谨慎使用全局的 `composer update`**
     - **不做向下版本兼容，如需要其他版本，请自行兼容开发**
     - **如果出现 PHP Fatal error:  Uncaught Error: Call to undefined function pcntl_signal()，请到 `php.ini` 配置文件中删除对应禁用函数即可，或者宝塔用户可在 php版本管理的 `禁用函数` 中自行删除**
-
-### 第三方引用
-
-- [webman](https://www.workerman.net/doc/webman/)
-- [think](https://github.com/top-think) (orm、cache、template)
-- [oss](https://github.com/aliyun/aliyun-oss-php-sdk) (阿里云存储)
-- [cos](https://github.com/tencentyun/cos-php-sdk-v5) (腾讯云存储)
-- [layui](https://layui.js.cn/)
-- [layuimini](http://layuimini.99php.cn/docs/)
-- [sdeditor](https://www.sdcms.cn/editor/) (编辑器)
 
 ## LICENSE
 

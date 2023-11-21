@@ -13,5 +13,12 @@
  */
 
 return [
-    '' => [app\middleware\InstallCheck::class],
+    '' => [
+        app\middleware\CheckInstall::class,
+    ],
+
+    'admin' => [
+        app\middleware\SystemLog::class,
+        app\middleware\CheckAuth::class,
+    ],
 ];

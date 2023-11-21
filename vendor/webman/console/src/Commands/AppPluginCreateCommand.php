@@ -183,7 +183,9 @@ class Install
     public static function install(\$version)
     {
         // 导入菜单
-        Menu::import(static::getMenus());
+        if(\$menus = static::getMenus()) {
+            Menu::import(\$menus);
+        }
     }
 
     /**
@@ -215,7 +217,9 @@ class Install
             static::removeUnnecessaryMenus(\$context['previous_menus']);
         }
         // 导入新菜单
-        Menu::import(static::getMenus());
+        if (\$menus = static::getMenus()) {
+            Menu::import(\$menus);
+        }
     }
 
     /**
@@ -432,7 +436,7 @@ return [
     // Fallback language
     'fallback_locale' => ['zh_CN', 'en'],
     // Folder where language files are stored
-    'path' => "$base/resource/translations",
+    'path' => base_path() . "/plugin/$name/resource/translations",
 ];
 
 EOF;

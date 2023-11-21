@@ -1,0 +1,93 @@
+{layout name="layout/layout" /}
+<div class="layuimini-container">
+    <div class="layuimini-main" id="app">
+        <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+            <div class="layui-row layui-col-space15">
+                <div class="layui-col-md6">
+
+                    <form id="app-form" class="layui-form layuimini-form">
+
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">博客名</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="site_name" class="layui-input" lay-verify="required" placeholder="请输入" value="{$row.site_name|default='我的博客'}">
+                            </div>
+                        </div>
+
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">博客title</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="title" class="layui-input" lay-verify="required" placeholder="请输入" value="{$row.title|default='我的博客'}">
+                            </div>
+                        </div>
+
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">博客keywords</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="keywords" class="layui-input" lay-verify="required" placeholder="请输入" value="{$row.keywords|default='我的博客'}">
+                            </div>
+                        </div>
+
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">博客description</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="description" class="layui-input" lay-verify="required" placeholder="请输入" value="{$row.description|default='我的博客'}">
+                            </div>
+                        </div>
+
+                        <div class="layui-form-item">
+                            <label class="layui-form-label ">博客ico</label>
+                            <div class="layui-input-block layuimini-upload">
+                                <input name="ico" class="layui-input layui-col-xs6" placeholder="请上传图片" value="{$row.ico|default='/favicon.ico'}">
+                                <div class="layuimini-upload-btn">
+                                    <span><a class="layui-btn" data-upload="ico" data-upload-number="one" data-upload-exts="ico" data-upload-icon="image"><i class="fa fa-upload"></i> 上传</a></span>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="layui-form-item">
+                            <label class="layui-form-label ">博客LOGO</label>
+                            <div class="layui-input-block layuimini-upload">
+                                <input name="logo" class="layui-input layui-col-xs6" placeholder="请上传图片" value="{$row.logo|default='/static/template_001/images/logo.jpg'}">
+                                <div class="layuimini-upload-btn">
+                                    <span><a class="layui-btn" data-upload="logo" data-upload-number="one" data-upload-exts="png|jpg|ico|jpeg" data-upload-icon="image"><i class="fa fa-upload"></i> 上传</a></span>
+                                    <span><a class="layui-btn layui-btn-normal" id="select_logo" data-upload-select="logo" data-upload-number="one" data-upload-mimetype="image/*"><i class="fa fa-list"></i> 选择</a></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">博客备案号</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="site_icp" class="layui-input" lay-verify="required" placeholder="请输入" value="{$row.site_icp|default='京ICP-XXX'}">
+                            </div>
+                        </div>
+
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">统计代码</label>
+                            <div class="layui-input-block">
+                                <textarea class="layui-textarea" name="tongji" placeholder="可输入百度等js统计代码"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">关于我</label>
+                            <div class="layui-input-block">
+                                {:editor_textarea($row.about_me,'about_me')}
+                            </div>
+                        </div>
+
+                        <div class="hr-line"></div>
+                        <div class="layui-form-item text-center">
+                            <button type="submit" class="layui-btn layui-btn-normal layui-btn-sm" lay-submit>确认</button>
+                            <button type="reset" class="layui-btn layui-btn-primary layui-btn-sm">重置</button>
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
