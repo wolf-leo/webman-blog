@@ -26,15 +26,14 @@
 
 ## 样式参考
 
-<center>
-<img alt="样式参考" height="860" src="./public/static/template_002/images/wolfcode.png" width="500"/>
-</center>
+![](public/static/template_002/images/wolfcode.png)
 
 ## 如何运行
 
 - 将代码 `下载` 或者 `git clone` 到本地，放入到预设路径（例如 `/www/wwwroot/yourpath`下）
     - 在 `/www/wwwroot/yourpath` 下运行 `php start.php start -d`
-- 运行前请先确认php版本，可以运行 `php -v` 查看
+- 运行前请先确认`PHP`版本是否`>=8.0`，可以运行 `php -v` 查看
+- 后续更新相关组件请先确认`composer`版本是否`>2.0`并且绑定的`PHP`版本是否`>=8.0`，可以运行 `composer show --platform` 查看
 
 - 相关命令的区别
 
@@ -85,7 +84,6 @@ server {
 - 后台地址，在主访问域名后面+ `/admin` 即可，例如 `http://你的域名/admin` ，后台账号 `admin` 密码 `123456`
 - ### 特别提醒
     - **尽量不要在 `Windows` 系统下运行该程序，建议使用 `Linux` 环境运行**
-    - **程序底层已做好 `php8+` 兼容，请谨慎使用全局的 `composer update`**
     - **不做向下版本兼容，如需要其他版本，请自行兼容开发**
     - **如果出现 PHP Fatal error:  Uncaught Error: Call to undefined function pcntl_signal()，请到 `php.ini` 配置文件中删除对应禁用函数即可，或者宝塔用户可在 php版本管理的 `禁用函数` 中自行删除**
 
